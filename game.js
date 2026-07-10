@@ -117,12 +117,14 @@ function gameLoop(timestamp) {
     }
     // アイテムの自動出現管理
     if (timestamp - lastItemSpawnTime > itemSpawnInterval) {
-        itemA.spawn(canvas.width, targetDoorY);
+        itemA.spawn(doorsX, canvas.height); // アイテムの出現位置をドアのX座標と画面下部に変更
         lastItemSpawnTime = timestamp;
     }
     // 客の自動生成
     if (timestamp - lastSpawnTime > spawnInterval) {
         spawnPassenger();
+        // テスト用に客と同時にアイテムを出現させる場合、以下のコメントを解除
+        // itemA.spawn(doorsX, canvas.height);
         lastSpawnTime = timestamp;
     }
     // 駅員（プレイヤー）の更新と描画
@@ -131,13 +133,21 @@ function gameLoop(timestamp) {
         player.draw(ctx);
     }
     // アイテムAの更新と描画
+    // アイテムがアクティブな場合のみ更新と描画を行う
     if (itemA.isActive) {
-        itemA.draw(ctx);
-        if (player) {
-            const playerBox = { x: player.x, y: player.y, width: player.width, height: player.height };
-            if (itemA.checkCollision(playerBox)) {
-                isHomeDoorActive = true;
-                homeDoorTimeRemaining = 15000; // 15秒間バリア起動
+        // アイテムの移動を処理
+        const shouldRemoveItem = itemA.update();
+        if (shouldRemoveItem) {
+            // 画面外に出た場合は、このフレームでの衝突判定などは不要
+        }
+        else {
+            itemA.draw(ctx);
+            if (player) {
+                const playerBox = { x: player.x, y: player.y, width: player.width, height: player.height };
+                if (itemA.checkCollision(playerBox)) {
+                    isHomeDoorActive = true;
+                    homeDoorTimeRemaining = 15000; // 15秒間バリア起動
+                }
             }
         }
     }

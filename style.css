@@ -400,7 +400,7 @@ canvas {
     }
 
     .led-table-body {
-        font-size: 16px;
+        font-size: 27px;
         font-weight: bold;
         letter-spacing: 1px;
     }
@@ -444,6 +444,7 @@ canvas {
     /* スマホ回転アニメーションエリア */
     .led-animation-area {
         height: 80px;
+        border: none;
         display: flex;
         justify-content: center;
         align-items: center;

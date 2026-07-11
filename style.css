@@ -72,7 +72,7 @@ canvas {
     /* Flexboxを有効にして子要素を横並びにする */
     justify-content: center;
     /* 子要素を水平方向の中央に配置 */
-    gap: 20px;
+    gap: 70px;
     /* デスクトップ画面でのボタン間の間隔 */
     flex-wrap: wrap;
     /* 画面幅が狭い場合にボタンを折り返す */
@@ -215,14 +215,14 @@ canvas {
     }
 
     .menu-list {
-        gap: 30px;
+        gap: 50px;
         /* ノートPC画面でのボタン間の間隔 */
     }
 
     .menu-button {
         width: 280px;
         /* ノートPC画面でのボタン幅 */
-        font-size: 32px;
+        font-size: 17px;
         /* ノートPC画面でのボタンフォントサイズ */
         padding: 18px 25px;
         margin: 15px auto;

@@ -18,5 +18,5 @@ btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("c
 // ランキングボタンを押したとき
 btnRanking === null || btnRanking === void 0 ? void 0 : btnRanking.addEventListener("click", () => {
     // ここにランキング画面を開く、またはポップアップを表示する処理を書く
-    alert("ランキング機能は現在準備中です！");
+    alert("実装までしばらくお待ちください！");
 });

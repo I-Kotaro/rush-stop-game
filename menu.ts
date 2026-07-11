@@ -21,5 +21,5 @@ btnStart?.addEventListener("click", (): void => {
 // ランキングボタンを押したとき
 btnRanking?.addEventListener("click", (): void => {
     // ここにランキング画面を開く、またはポップアップを表示する処理を書く
-    alert("ランキング機能は現在準備中です！");
+    alert("実装までしばらくお待ちください！");
 });

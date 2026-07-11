@@ -41,6 +41,7 @@
         </div>
     </div>
 
+    <!-- トップメニューはコンテナの外（body直下）に配置し、画面全体に広げる -->
     <div id="top-menu">
         <div class="menu-content">
             <img id="top-logo" src="images/top-logo.png" alt="駅員駆け込み阻止ゲーム" />
@@ -60,7 +61,10 @@
         </div>
     </div>
 
-    <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    <!-- ゲームCanvasのみをアスペクト比16:9のコンテナに包む -->
+    <div id="game-container">
+        <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    </div>
 
     <script type="module" src="game.js"></script>
     <script type="module" src="menu.js"></script>

@@ -14,7 +14,8 @@ body {
 canvas {
     border: 4px solid #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    cursor: none; /* マウスカーソルを非表示にして駅員に集中させる */
+    cursor: none;
+    /* マウスカーソルを非表示にして駅員に集中させる */
 }
 
 /* ==================================== */
@@ -22,39 +23,61 @@ canvas {
 /* ==================================== */
 #top-menu {
     position: absolute;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     color: #fff;
-    background-image: url("images/top.jpeg"); /* top.jpegを背景画像として設定 */
-    background-size: cover; /* 背景画像を要素全体に広げる */
-    background-position: center; /* 背景画像を中央に配置 */
+    background-image: url("images/top-back.jpg");
+    /* top-back.jpgを背景画像として設定 */
+    background-size: cover;
+    /* 背景画像を要素全体に広げる */
+    background-position: center;
+    /* 背景画像を中央に配置 */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* 一番手前に表示 */
+    z-index: 9999;
+    /* 一番手前に表示 */
     font-family: "Hiragino Kaku Gothic ProN", sans-serif;
 }
+
 .menu-content {
     text-align: center;
-    margin-top: 300px;
+    display: flex;
+    /* Flexboxを有効にする */
+    flex-direction: column;
+    /* 子要素を縦に並べる */
+    align-items: center;
+    /* 子要素を水平方向の中央に配置 */
+    margin-top: -50px;
+    /* デスクトップ画面でコンテンツ全体を中央より少し上に移動 */
 }
-.game-title {
-    font-size: 32px;
-    color: #ffcc00; /* 黄色の文字カラー */
-    margin-bottom: 40px;
-    text-shadow: 2px 2px 4px #000;
-    font-family: Impact, sans-serif; /* ゲーム感のあるフォントに変更 */
+
+#top-logo {
+    max-width: 1000px;
+    /* デスクトップ画面（1366px超）でのロゴの最大幅 */
+    height: auto;
+    /* アスペクト比を維持 */
+    margin-bottom: 50px;
+    /* ロゴとボタンリストの間のスペース */
 }
+
 .menu-list {
     list-style: none;
     padding: 0;
-    margin: 0; /* ulのデフォルトマージンをリセット */
-    display: flex; /* Flexboxを有効にして子要素を横並びにする */
-    justify-content: center; /* 子要素を水平方向の中央に配置 */
-    gap: 40px; /* ボタン間の間隔を40pxに設定 */
-    flex-wrap: wrap; /* 画面幅が狭い場合にボタンを折り返す */
+    margin: 0;
+    /* ulのデフォルトマージンをリセット */
+    display: flex;
+    /* Flexboxを有効にして子要素を横並びにする */
+    justify-content: center;
+    /* 子要素を水平方向の中央に配置 */
+    gap: 20px;
+    /* デスクトップ画面でのボタン間の間隔 */
+    flex-wrap: wrap;
+    /* 画面幅が狭い場合にボタンを折り返す */
 }
+
 .menu-list li {
     /* li要素自体のスタイルは最小限に */
     margin: 0;
@@ -63,108 +86,205 @@ canvas {
 
 /* メニューボタンのスタイル */
 .menu-button {
-    display: block; /* ブロック要素にして幅を制御 */
-    width: 300px; /* デスクトップでのボタン幅 */
-    padding: 20px 30px; /* パディングをさらに増やしてボタンを大きく */
-    margin: 20px 0; /* 上下マージンは維持し、左右マージンはgapで調整 */
-    background: linear-gradient(
-        145deg,
-        #4a4a4a,
-        /* ベースのグラデーションを少し明るく */ #2a2a2a
-    );
-    border: 4px solid #ffcc00; /* 枠線をさらに太く、目立つ黄色に */
-    color: #fff; /* ボタンの文字色 */
-    font-size: 17px; /* フォントサイズをさらに大きく */
-    font-family: Impact, sans-serif; /* ゲーム感のあるフォント */
+    display: block;
+    /* ブロック要素にして幅を制御 */
+    width: 300px;
+    /* デスクトップでのボタン幅 */
+    padding: 20px 30px;
+    /* パディングをさらに増やしてボタンを大きく */
+    margin: 20px 0;
+    /* 上下マージンは維持し、左右マージンはgapで調整 */
+    background: linear-gradient(145deg,
+            #4a4a4a,
+            /* ベースのグラデーションを少し明るく */
+            #2a2a2a);
+    border: 4px solid #ffcc00;
+    /* 枠線をさらに太く、目立つ黄色に */
+    color: #fff;
+    /* ボタンの文字色 */
+    font-size: 17px;
+    /* デスクトップ画面でのボタンフォントサイズ */
+    font-family: Impact, sans-serif;
+    /* ゲーム感のあるフォント */
     cursor: pointer;
-    transition: all 0.15s ease-out; /* ホバー時のラグを短く、より素早く反応するように調整 */
+    transition: all 0.15s ease-out;
+    /* ホバー時のラグを短く、より素早く反応するように調整 */
     text-align: center;
     text-decoration: none;
-    border-radius: 15px; /* 角をさらに丸く */
+    border-radius: 15px;
+    /* 角をさらに丸く */
     /* 強化されたbox-shadowでより深い立体感と外側の光 */
     box-shadow:
         0 12px 25px rgba(0, 0, 0, 0.8),
-        /* より深いメインの影 */ inset 0 0 20px rgba(255, 255, 255, 0.3),
-        /* より強い内側の光 */ 0 0 15px rgba(255, 204, 0, 0.6); /* 外側の光 */
+        /* より深いメインの影 */
+        inset 0 0 20px rgba(255, 255, 255, 0.3),
+        /* より強い内側の光 */
+        0 0 15px rgba(255, 204, 0, 0.6);
+    /* 外側の光 */
     /* 強化されたtext-shadowで文字を光らせる */
     text-shadow:
         2px 2px 8px rgba(0, 0, 0, 0.9),
-        /* 強いメインの影 */ 0 0 10px rgba(255, 255, 255, 0.6); /* 文字の光 */
-    letter-spacing: 1px; /* 文字間隔を少し開ける */
-    transform: scale(1); /* 初期スケールを設定 */
-    animation: pulse-glow 2s infinite alternate ease-in-out; /* 脈動アニメーションを追加 */
+        /* 強いメインの影 */
+        0 0 10px rgba(255, 255, 255, 0.6);
+    /* 文字の光 */
+    letter-spacing: 1px;
+    /* 文字間隔を少し開ける */
+    transform: scale(1);
+    /* 初期スケールを設定 */
+    animation: pulse-glow 2s infinite alternate ease-in-out;
+    /* 脈動アニメーションを追加 */
 }
 
 /* ボタンのホバー（マウスを載せたとき）の演出 */
 .menu-button:hover {
-    background: linear-gradient(
-        145deg,
-        #6a6a6a,
-        /* ホバー時のグラデーションをさらに明るく */ #4a4a4a
-    );
-    color: #ffeb3b; /* 文字色を明るい黄色に */
-    border-color: #fff; /* 枠線を白に */
+    background: linear-gradient(145deg,
+            #6a6a6a,
+            /* ホバー時のグラデーションをさらに明るく */
+            #4a4a4a);
+    color: #ffeb3b;
+    /* 文字色を明るい黄色に */
+    border-color: #fff;
+    /* 枠線を白に */
     /* ホバー時にさらに強調されたbox-shadowと強い光 */
     box-shadow:
         0 18px 30px rgba(0, 0, 0, 0.9),
-        /* より深く、広がる影 */ inset 0 0 25px rgba(255, 255, 255, 0.5),
-        /* より強い内側の光 */ 0 0 25px rgba(255, 204, 0, 0.9); /* 非常に強い外側の光 */
+        /* より深く、広がる影 */
+        inset 0 0 25px rgba(255, 255, 255, 0.5),
+        /* より強い内側の光 */
+        0 0 25px rgba(255, 204, 0, 0.9);
+    /* 非常に強い外側の光 */
     /* ホバー時にテキストを強く光らせる */
     text-shadow:
         0 0 20px #ffeb3b,
-        /* 強い黄色の光 */ 0 0 30px #ffeb3b; /* さらに広がる黄色の光 */
-    transform: translateY(-7px) scale(1.08); /* より大きく浮き上がり、拡大 */
-    filter: brightness(1.2); /* 全体をさらに明るく */
-    animation: none; /* ホバー時は脈動アニメーションを停止 */
+        /* 強い黄色の光 */
+        0 0 30px #ffeb3b;
+    /* さらに広がる黄色の光 */
+    transform: translateY(-7px) scale(1.08);
+    /* より大きく浮き上がり、拡大 */
+    filter: brightness(1.2);
+    /* 全体をさらに明るく */
+    animation: none;
+    /* ホバー時は脈動アニメーションを停止 */
 }
 
 /* ボタン内の矢印のスタイル */
 .menu-button .arrow {
     visibility: hidden;
     margin-right: 10px;
-    color: #ffeb3b; /* 矢印の色も明るい黄色に */
-    font-size: 1.3em; /* 矢印をさらに大きく */
-    vertical-align: middle; /* 垂直方向の位置を調整 */
-    text-shadow: 0 0 8px #ffeb3b; /* 矢印にも光を追加 */
+    color: #ffeb3b;
+    /* 矢印の色も明るい黄色に */
+    font-size: 1.3em;
+    /* 矢印をさらに大きく */
+    vertical-align: middle;
+    /* 垂直方向の位置を調整 */
+    text-shadow: 0 0 8px #ffeb3b;
+    /* 矢印にも光を追加 */
 }
+
 /* ボタンホバー時に矢印を表示 */
 .menu-button:hover .arrow {
     visibility: visible;
-    transform: translateX(-10px); /* 矢印がより大きく左に動くアニメーション */
+    transform: translateX(-10px);
+    /* 矢印がより大きく左に動くアニメーション */
     transition: transform 0.25s ease-in-out;
 }
 
 /* ボタンがクリックされた時の演出 */
 .menu-button:active {
-    transform: translateY(0) scale(0.95); /* 押し込まれるような効果と少し縮小 */
+    transform: translateY(0) scale(0.95);
+    /* 押し込まれるような効果と少し縮小 */
     box-shadow:
         0 5px 10px rgba(0, 0, 0, 0.5),
-        /* 押し込まれた時の影 */ inset 0 0 8px rgba(255, 255, 255, 0.2),
-        0 0 8px rgba(255, 204, 0, 0.4); /* 押し込まれた時の光 */
-    background: linear-gradient(
-        145deg,
-        #222222,
-        #3a3a3a
-    ); /* 押し込まれた感じのグラデーション */
-    filter: brightness(0.9); /* 少し暗く */
+        /* 押し込まれた時の影 */
+        inset 0 0 8px rgba(255, 255, 255, 0.2),
+        0 0 8px rgba(255, 204, 0, 0.4);
+    /* 押し込まれた時の光 */
+    background: linear-gradient(145deg,
+            #222222,
+            #3a3a3a);
+    /* 押し込まれた感じのグラデーション */
+    filter: brightness(0.9);
+    /* 少し暗く */
 }
 
-/* レスポンシブ対応: 画面幅が768px以下の場合 */
-@media (max-width: 768px) {
+/* ノートPC画面 (例: 画面幅が1366px以下) */
+@media (max-width: 1366px) {
+    .menu-content {
+        margin-top: -30px;
+        /* ノートPC画面でのコンテンツ上部マージン */
+    }
+
+    .menu-list {
+        gap: 30px;
+        /* ノートPC画面でのボタン間の間隔 */
+    }
+
     .menu-button {
-        width: 80%; /* ボタン幅を画面幅の80%に */
+        width: 280px;
+        /* ノートPC画面でのボタン幅 */
+        font-size: 32px;
+        /* ノートPC画面でのボタンフォントサイズ */
+        padding: 18px 25px;
+        margin: 15px auto;
+    }
+
+    #top-logo {
+        margin-bottom: 40px;
+        max-width: 600px;
+        /* ノートPC画面でのロゴの最大幅 */
+    }
+}
+
+/* タブレット画面 (例: 画面幅が768px以下) */
+@media (max-width: 768px) {
+    .menu-content {
+        margin-top: -10px;
+        /* タブレット画面でのコンテンツ上部マージン */
+    }
+
+    .menu-list {
+        gap: 20px;
+        /* タブレット画面でのボタン間の間隔 */
+    }
+
+    .menu-button {
+        width: 80%;
+        /* ボタン幅を画面幅の80%に */
         font-size: 24px;
         padding: 18px 20px;
         margin: 15px auto;
     }
+
+    #top-logo {
+        margin-bottom: 30px;
+        max-width: 90%;
+        /* タブレット画面でのロゴの最大幅 */
+    }
 }
 
-/* レスポンシブ対応: 画面幅が480px以下の場合 */
+/* スマートフォン画面 (例: 画面幅が480px以下) */
 @media (max-width: 480px) {
+    .menu-content {
+        margin-top: 0px;
+        /* スマートフォン画面でのコンテンツ上部マージン */
+    }
+
+    .menu-list {
+        gap: 15px;
+        /* スマートフォン画面でのボタン間の間隔 */
+    }
+
     .menu-button {
-        width: 90%; /* ボタン幅を画面幅の90%に */
+        width: 90%;
+        /* ボタン幅を画面幅の90%に */
         font-size: 20px;
         padding: 15px 18px;
         margin: 10px auto;
+    }
+
+    #top-logo {
+        margin-bottom: 20px;
+        max-width: 95%;
+        /* スマートフォン画面でのロゴの最大幅 */
     }
 }

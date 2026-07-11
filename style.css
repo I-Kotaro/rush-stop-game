@@ -199,9 +199,7 @@ canvas {
         inset 0 0 8px rgba(255, 255, 255, 0.2),
         0 0 8px rgba(255, 204, 0, 0.4);
     /* 押し込まれた時の光 */
-    background: linear-gradient(145deg,
-            #222222,
-            #3a3a3a);
+    background: linear-gradient(145deg, #222222, #3a3a3a);
     /* 押し込まれた感じのグラデーション */
     filter: brightness(0.9);
     /* 少し暗く */
@@ -286,5 +284,252 @@ canvas {
         margin-bottom: 20px;
         max-width: 95%;
         /* スマートフォン画面でのロゴの最大幅 */
+    }
+}
+
+/* ==================================== */
+/*  画面回転を促す警告画面のスタイル（LED発車標風）  */
+/* ==================================== */
+#orientation-warning {
+    display: none;
+}
+
+/* スマホ・タブレット等のサイズで、かつ画面が縦向き（Portrait）の場合 */
+@media (max-width: 1024px) and (orientation: portrait) {
+    #orientation-warning {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #0d0d0d;
+        z-index: 100000;
+        /* 最前面に表示 */
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    /* LED掲示板の金属製筐体 */
+    .led-board {
+        width: 95%;
+        max-width: 450px;
+        background-color: #222;
+        border: 8px solid #333;
+        border-bottom-width: 12px;
+        border-radius: 8px;
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.8),
+            inset 0 2px 5px rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+        font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    }
+
+    /* 掲示板ヘッダー（案内 / Information） */
+    .led-header {
+        background-color: #111;
+        border-bottom: 2px solid #222;
+        padding: 6px 12px;
+        text-align: left;
+    }
+
+    .led-header-title {
+        color: #888;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    /* LEDディスプレイ表示部 */
+    .led-screen {
+        position: relative;
+        background-color: #050505;
+        padding: 15px;
+        overflow: hidden;
+    }
+
+    /* ドット格子マスクエフェクト */
+    .led-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+        background-size: 100% 3px, 6px 100%;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .led-content {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* LED発車標風テーブル */
+    .led-table {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #1a1a1a;
+        background-color: #000;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .led-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-bottom: 1px solid #111;
+    }
+
+    .led-table-header {
+        background-color: #0c0c0c;
+        border-bottom: 2px solid #1a1a1a;
+        color: #555;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .led-table-body {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .col-type {
+        width: 25%;
+        text-align: left;
+    }
+
+    .col-time {
+        width: 25%;
+        text-align: center;
+    }
+
+    .col-dest {
+        width: 50%;
+        text-align: right;
+    }
+
+    /* LED発光カラーと光彩 */
+    .led-red {
+        color: #ff3300;
+        text-shadow: 0 0 6px rgba(255, 51, 0, 0.8), 0 0 12px rgba(255, 51, 0, 0.4);
+    }
+
+    .led-orange {
+        color: #ffaa00;
+        text-shadow: 0 0 6px rgba(255, 170, 0, 0.8), 0 0 12px rgba(255, 170, 0, 0.4);
+    }
+
+    .led-green {
+        color: #33ff00;
+        text-shadow: 0 0 6px rgba(51, 255, 0, 0.8), 0 0 12px rgba(51, 255, 0, 0.4);
+    }
+
+    .led-center {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* スマホ回転アニメーションエリア */
+    .led-animation-area {
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000;
+        border-radius: 4px;
+        border: 1px solid #111;
+    }
+
+    .led-phone-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .led-arrow {
+        font-size: 28px;
+        font-weight: bold;
+        animation: blink 1s steps(2, start) infinite;
+    }
+
+    .led-phone {
+        font-size: 40px;
+        display: inline-block;
+        animation: led-rotate-phone 2s ease-in-out infinite;
+    }
+
+    /* 流れるテロップ部 */
+    .led-ticker {
+        background-color: #000;
+        border: 1px solid #111;
+        border-radius: 4px;
+        padding: 5px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .led-ticker-text {
+        display: inline-block;
+        color: #ffaa00;
+        font-size: 17px;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(255, 170, 0, 0.6);
+        animation: led-ticker-scroll 12s linear infinite;
+        padding-left: 100%;
+    }
+
+    /* 縦画面時はゲームやメニューを非表示にして操作させない */
+    #top-menu,
+    canvas {
+        display: none !important;
+    }
+}
+
+/* 点滅アニメーション */
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* スマホ回転アニメーション */
+@keyframes led-rotate-phone {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(-90deg);
+    }
+
+    60% {
+        transform: rotate(-90deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* テロップスクロールアニメーション */
+@keyframes led-ticker-scroll {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-100%, 0, 0);
     }
 }

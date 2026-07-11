@@ -1,38 +1,69 @@
 <!doctype html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>駅員駆け込み阻止ゲーム - フェーズ1</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <div id="top-menu">
-            <div class="menu-content">
-                <img
-                    id="top-logo"
-                    src="images/top-logo.png"
-                    alt="駅員駆け込み阻止ゲーム"
-                />
-                <!-- メニュー選択肢 -->
-                <ul class="menu-list">
-                    <li>
-                        <button id="btn-start" class="menu-button">
-                            ゲームスタート
-                        </button>
-                    </li>
-                    <li>
-                        <button id="btn-ranking" class="menu-button">
-                            ランキング（実装予定）
-                        </button>
-                    </li>
-                </ul>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>駅員駆け込み阻止ゲーム - フェーズ1</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- 画面回転を促す警告画面（駅のLED発車標風） -->
+    <div id="orientation-warning">
+        <div class="led-board">
+            <div class="led-screen">
+                <div class="led-grid"></div>
+                <div class="led-content">
+                    <!-- 発車標風のテーブル表示 -->
+                    <div class="led-table">
+                        <div class="led-row led-table-body">
+                            <span class="led-center led-green">端末をヨコにしてお楽しみください。</span>
+                        </div>
+                    </div>
+
+                    <!-- スマホを傾けるよう促すLED風アニメーション -->
+                    <div class="led-animation-area">
+                        <div class="led-phone-wrapper">
+                            <span class="led-arrow led-orange">➔</span>
+                            <span class="led-phone led-green">📱</span>
+                        </div>
+                    </div>
+
+                    <!-- LEDの下部を流れるスクロールテロップ -->
+                    <div class="led-ticker">
+                        <div class="led-ticker-text">
+                            【お知らせ】当ゲームは「横画面」専用です。スマートフォンを横向きに回転するとゲームが開始されます。
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    <div id="top-menu">
+        <div class="menu-content">
+            <img id="top-logo" src="images/top-logo.png" alt="駅員駆け込み阻止ゲーム" />
+            <!-- メニュー選択肢 -->
+            <ul class="menu-list">
+                <li>
+                    <button id="btn-start" class="menu-button">
+                        ゲームスタート
+                    </button>
+                </li>
+                <li>
+                    <button id="btn-ranking" class="menu-button">
+                        ランキング（実装予定）
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-        <script type="module" src="game.js"></script>
-        <script type="module" src="menu.js"></script>
-    </body>
+    <canvas id="gameCanvas" width="1024" height="576"></canvas>
+
+    <script type="module" src="game.js"></script>
+    <script type="module" src="menu.js"></script>
+</body>
+
 </html>

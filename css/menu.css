@@ -27,14 +27,18 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    opacity: 0; /* 初期状態は非表示 */
-    z-index: -1; /* メニューコンテンツの背後に配置 */
-    transition: opacity 1.5s ease-in-out; /* フェードイン/アウトの速度（1.5秒かけて滑らかに変化） */
+    opacity: 0;
+    /* 初期状態は非表示 */
+    z-index: -1;
+    /* メニューコンテンツの背後に配置 */
+    transition: opacity 1.5s ease-in-out;
+    /* フェードイン/アウトの速度（1.5秒かけて滑らかに変化） */
 }
 
 /* 表示中のレイヤー用のアクティブクラス */
 .top-menu-bg.active {
-    opacity: 1; /* 不透明にして表示する */
+    opacity: 1;
+    /* 不透明にして表示する */
 }
 
 .top-menu-bg.bg1 {
@@ -243,85 +247,42 @@
     }
 }
 
-/* タブレット画面 (例: 画面幅が768px以下) */
-@media (max-width: 768px) {
+/* スマホ横画面など、縦幅（高さ）が極端に狭い横向き画面向けのレスポンシブ調整 */
+@media (max-height: 500px) and (orientation: landscape) {
     .menu-content {
-        margin-top: -10px;
-        /* タブレット画面でのコンテンツ上部マージン */
-    }
-
-    .menu-list {
-        gap: 20px;
-        /* タブレット画面でのボタン間の間隔 */
-    }
-
-    .menu-button {
-        width: 80%;
-        /* ボタン幅を画面幅の80%に */
-        font-size: 24px;
-        padding: 18px 20px;
-        margin: 15px auto;
+        margin-top: 0px;
+        /* 上部マージンを詰め、上寄りになりすぎないように調整 */
     }
 
     #top-logo {
-        margin-bottom: 30px;
-        max-width: 90%;
-        /* タブレット画面でのロゴの最大幅 */
-    }
-}
-
-/* スマートフォン画面 (例: 画面幅が480px以下) */
-@media (max-width: 480px) {
-    .menu-content {
-        margin-top: 0px;
-        /* スマートフォン画面でのコンテンツ上部マージン */
+        max-width: 320px;
+        /* ロゴサイズを大幅に縮小（はみ出し防止） */
+        margin-bottom: 15px;
+        /* ロゴとボタンリスト間の隙間を狭く */
     }
 
     .menu-list {
         gap: 15px;
-        /* スマートフォン画面でのボタン間の間隔 */
+        /* ボタン同士の間隔を詰めてコンパクト化 */
     }
 
     .menu-button {
-        width: 90%;
-        /* ボタン幅を画面幅の90%に */
-        font-size: 20px;
-        padding: 15px 18px;
-        margin: 10px auto;
-    }
-
-    #top-logo {
-        margin-bottom: 20px;
-        max-width: 95%;
-        /* スマートフォン画面でのロゴの最大幅 */
-    }
-}
-
-/* スマホ横画面など、縦幅（高さ）が極端に狭い横向き画面向けのレスポンシブ調整 */
-@media (max-height: 500px) and (orientation: landscape) {
-    .menu-content {
-        margin-top: 0px; /* 上部マージンを詰め、上寄りになりすぎないように調整 */
-    }
-
-    #top-logo {
-        max-width: 320px; /* ロゴサイズを大幅に縮小（はみ出し防止） */
-        margin-bottom: 15px; /* ロゴとボタンリスト間の隙間を狭く */
-    }
-
-    .menu-list {
-        gap: 15px; /* ボタン同士の間隔を詰めてコンパクト化 */
-    }
-
-    .menu-button {
-        width: 180px; /* ボタン全体の横幅を縮小 */
-        font-size: 13px; /* ボタンの文字（フォント）を小さく調整 */
-        padding: 8px 15px; /* ボタンの内側余白（パディング）を小さく */
+        width: 220px;
+        /* ボタン全体の横幅を少し広げてテキストが1行に収まるように調整 */
+        font-size: 13px;
+        /* ボタンの文字（フォント）を小さく調整 */
+        padding: 8px 15px;
+        /* ボタンの内側余白（パディング）を小さく */
         margin: 5px auto;
-        border-radius: 8px; /* ボタンサイズに合わせて角丸も小さめに調整 */
+        white-space: nowrap;
+        /* テキストがボタン内で2段に改行されるのを防止 */
+        border-radius: 8px;
+        /* ボタンサイズに合わせて角丸も小さめに調整 */
         box-shadow:
             0 6px 12px rgba(0, 0, 0, 0.8),
             inset 0 0 10px rgba(255, 255, 255, 0.3),
-            0 0 8px rgba(255, 204, 0, 0.6); /* 縮小に合わせたシャドウの調整 */
+            0 0 8px rgba(255, 204, 0, 0.6);
+        /* 縮小に合わせたシャドウの調整 */
     }
 
     /* ホバー時の浮き上がり量と拡大率も、画面の高さに合わせて控えめに調整 */

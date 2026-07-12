@@ -4,7 +4,8 @@
 const bgImages = [
     "images/top-back1.jpg",
     "images/top-back2.jpg",
-    "images/top-back3.jpg"
+    "images/top-back3.jpg",
+    "images/top-back4.png"
 ];
 let currentBgIndex = 0;
 let bgTimer = null;
@@ -42,9 +43,31 @@ function initBackgroundFade() {
 }
 // 初期化実行
 initBackgroundFade();
-// ゲームスタートボタンを押したとき
-btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("click", () => {
-    // トップメニューを非表示にする
+const btnRules = document.getElementById("btn-rules");
+const rulesModal = document.getElementById("rules-modal");
+const btnCloseRules = document.getElementById("btn-close-rules");
+const chkSkipRules = document.getElementById("chk-skip-rules");
+const modalFooterLabel = document.querySelector(".modal-footer label");
+let isOpenedFromStart = false; // 呼び出し元判定フラグ
+// ルールモーダルを開く処理
+function showRules(fromStart) {
+    if (!rulesModal || !btnCloseRules)
+        return;
+    isOpenedFromStart = fromStart;
+    if (fromStart) {
+        btnCloseRules.textContent = "ゲーム開始";
+        if (modalFooterLabel)
+            modalFooterLabel.style.display = "flex"; // スキップチェックを表示
+    }
+    else {
+        btnCloseRules.textContent = "閉じる";
+        if (modalFooterLabel)
+            modalFooterLabel.style.display = "none"; // スキップチェックを非表示
+    }
+    rulesModal.style.display = "flex";
+}
+// ゲームスタート処理
+function startGame() {
     if (topMenu) {
         topMenu.style.display = "none";
     }
@@ -54,8 +77,35 @@ btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("c
         bgTimer = null;
     }
     console.log("ゲームが開始されました");
+}
+// ゲームスタートボタンを押したとき
+btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("click", () => {
+    const shouldSkip = localStorage.getItem("skipRules");
+    if (shouldSkip === "true") {
+        startGame(); // スキップ設定がされていれば即ゲーム開始
+    }
+    else {
+        showRules(true); // スキップされていなければルール説明を表示
+    }
 });
 // ランキングボタンを押したとき
 btnRanking === null || btnRanking === void 0 ? void 0 : btnRanking.addEventListener("click", () => {
     alert("実装までしばらくお待ちください！");
+});
+// 遊び方ボタンを押したとき
+btnRules === null || btnRules === void 0 ? void 0 : btnRules.addEventListener("click", () => {
+    showRules(false); // タイトル画面から明示的にルールを再確認
+});
+// モーダル内のボタン（ゲーム開始 / 閉じる）を押したとき
+btnCloseRules === null || btnCloseRules === void 0 ? void 0 : btnCloseRules.addEventListener("click", () => {
+    if (rulesModal) {
+        rulesModal.style.display = "none";
+    }
+    if (isOpenedFromStart) {
+        // スタートボタン経由からゲームを開始する場合、チェック状態を保存
+        if (chkSkipRules === null || chkSkipRules === void 0 ? void 0 : chkSkipRules.checked) {
+            localStorage.setItem("skipRules", "true");
+        }
+        startGame();
+    }
 });

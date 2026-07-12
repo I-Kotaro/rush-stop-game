@@ -4,7 +4,8 @@
 const bgImages: string[] = [
     "images/top-back1.jpg",
     "images/top-back2.jpg",
-    "images/top-back3.jpg"
+    "images/top-back3.jpg",
+    "images/top-back4.png"
 ];
 
 let currentBgIndex = 0;
@@ -53,9 +54,33 @@ function initBackgroundFade(): void {
 // 初期化実行
 initBackgroundFade();
 
-// ゲームスタートボタンを押したとき
-btnStart?.addEventListener("click", (): void => {
-    // トップメニューを非表示にする
+const btnRules = document.getElementById("btn-rules") as HTMLElement | null;
+const rulesModal = document.getElementById("rules-modal") as HTMLElement | null;
+const btnCloseRules = document.getElementById("btn-close-rules") as HTMLElement | null;
+const chkSkipRules = document.getElementById("chk-skip-rules") as HTMLInputElement | null;
+const modalFooterLabel = document.querySelector(".modal-footer label") as HTMLElement | null;
+
+let isOpenedFromStart = false; // 呼び出し元判定フラグ
+
+// ルールモーダルを開く処理
+function showRules(fromStart: boolean): void {
+    if (!rulesModal || !btnCloseRules) return;
+
+    isOpenedFromStart = fromStart;
+
+    if (fromStart) {
+        btnCloseRules.textContent = "ゲーム開始";
+        if (modalFooterLabel) modalFooterLabel.style.display = "flex"; // スキップチェックを表示
+    } else {
+        btnCloseRules.textContent = "閉じる";
+        if (modalFooterLabel) modalFooterLabel.style.display = "none"; // スキップチェックを非表示
+    }
+
+    rulesModal.style.display = "flex";
+}
+
+// ゲームスタート処理
+function startGame(): void {
     if (topMenu) {
         topMenu.style.display = "none";
     }
@@ -67,9 +92,40 @@ btnStart?.addEventListener("click", (): void => {
     }
 
     console.log("ゲームが開始されました");
+}
+
+// ゲームスタートボタンを押したとき
+btnStart?.addEventListener("click", (): void => {
+    const shouldSkip = localStorage.getItem("skipRules");
+
+    if (shouldSkip === "true") {
+        startGame(); // スキップ設定がされていれば即ゲーム開始
+    } else {
+        showRules(true); // スキップされていなければルール説明を表示
+    }
 });
 
 // ランキングボタンを押したとき
 btnRanking?.addEventListener("click", (): void => {
     alert("実装までしばらくお待ちください！");
+});
+
+// 遊び方ボタンを押したとき
+btnRules?.addEventListener("click", (): void => {
+    showRules(false); // タイトル画面から明示的にルールを再確認
+});
+
+// モーダル内のボタン（ゲーム開始 / 閉じる）を押したとき
+btnCloseRules?.addEventListener("click", (): void => {
+    if (rulesModal) {
+        rulesModal.style.display = "none";
+    }
+
+    if (isOpenedFromStart) {
+        // スタートボタン経由からゲームを開始する場合、チェック状態を保存
+        if (chkSkipRules?.checked) {
+            localStorage.setItem("skipRules", "true");
+        }
+        startGame();
+    }
 });

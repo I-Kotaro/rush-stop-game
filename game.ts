@@ -42,7 +42,7 @@ const onImageLoad = () => {
     }
 };
 
-backgroundImage.src = "images/train.jpg";
+backgroundImage.src = "images/game-back-train.jpg";
 backgroundImage.onload = onImageLoad;
 
 playerImage.src = "images/station_staff.png"; // 駅員画像

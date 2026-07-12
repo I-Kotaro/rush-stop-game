@@ -43,6 +43,10 @@
 
     <!-- トップメニューはコンテナの外（body直下）に配置し、画面全体に広げる -->
     <div id="top-menu">
+        <!-- 背景フェード用の要素（JSで交互に切り替えるため2つのレイヤーで固定） -->
+        <div id="menu-bg-1" class="top-menu-bg"></div>
+        <div id="menu-bg-2" class="top-menu-bg"></div>
+
         <div class="menu-content">
             <img id="top-logo" src="images/top-logo.png" alt="駅員駆け込み阻止ゲーム" />
             <!-- メニュー選択肢 -->
@@ -57,7 +61,44 @@
                         ランキング（実装予定）
                     </button>
                 </li>
+                <li>
+                    <button id="btn-rules" class="menu-button">
+                        遊び方
+                    </button>
+                </li>
             </ul>
+        </div>
+    </div>
+
+    <!-- ルール説明モーダル -->
+    <div id="rules-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>遊び方</h2>
+            <div class="modal-body">
+                <p class="rule-intro">発車間際の列車に駆け込んでくるお客様を阻止しましょう！</p>
+                <div class="rule-section">
+                    <h3>【ルール】</h3>
+                    <ul>
+                        <li>マウス（スマホは画面スワイプ）で駅員を左右に操作します。</li>
+                        <li>駆け込んでくるお客様に体当たりして、ご乗車を阻止してください。</li>
+                        <li>お客様が駆け込み乗車に成功すると「遅延時間」が増加します。</li>
+                        <li>遅延時間が限界に達するとゲームオーバーです。</li>
+                    </ul>
+                </div>
+                <div class="rule-section">
+                    <h3>【操作方法】</h3>
+                    <ul>
+                        <li>PC操作：マウスを左右に動かすと駅員が追従します。</li>
+                        <li>スマホ操作：画面を左右にスワイプすると駅員が追従します。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label class="skip-label">
+                    <input type="checkbox" id="chk-skip-rules" /> 次回から表示しない
+                </label>
+                <button id="btn-close-rules" class="modal-close-button">ゲーム開始</button>
+            </div>
         </div>
     </div>
 

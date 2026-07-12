@@ -1,0 +1,68 @@
+/* ==================================== */
+/*  グローバル・レイアウトスタイル      */
+/* ==================================== */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    /* モバイル等での不要なスクロール・バウンスを完全に防止 */
+}
+
+body {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    position: relative;
+    /* 疑似要素(背景)の基準点にする */
+}
+
+/* 画面左右の余白（黒帯）を埋めるための、軽くぼかした最背面背景 */
+body::before {
+    content: "";
+    position: absolute;
+    /* ぼかした境界線の白いモヤが画面内に入らないよう、少し外側まで広げる */
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-image: url("../images/train.jpg");
+    /* ユーザーが指定した背景画像を使用 */
+    /* 注：cssフォルダーに移動するため、imagesへの相対パスの階層が1つ上がって "../images/..." になります */
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    /* 暗くせず、軽くぼかす */
+    transform: scale(1.02);
+    /* ぼかしの端のゆがみを隠すための拡大 */
+    z-index: -1;
+    /* ゲーム画面(canvas)やメニューの裏側に配置 */
+}
+
+/* ゲーム全体をアスペクト比16:9で画面内に収めるコンテナ */
+#game-container {
+    position: relative;
+    /* 子要素(top-menu)の絶対配置の基準にする */
+    width: 100%;
+    max-width: calc(100vh * 16 / 9);
+    /* 1024pxの固定制限をなくし、16:9を維持して画面限界まで大きく表示する */
+    height: auto;
+    max-height: 100vh;
+    aspect-ratio: 16 / 9;
+    border: 4px solid #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    box-sizing: border-box;
+    /* 枠線(4px)を含めて画面内に収める */
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: none;
+    /* マウスカーソルを非表示にして駅員に集中させる */
+}

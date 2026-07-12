@@ -76,12 +76,8 @@ canvas {
     width: 100%;
     height: 100%;
     color: #fff;
-    background-image: url("images/top-back.jpg");
-    /* top-back.jpgを背景画像として設定 */
-    background-size: cover;
-    /* 背景画像を要素全体に広げる */
-    background-position: center;
-    /* 背景画像を中央に配置 */
+    background-color: #000;
+    /* 背景画像切り替え時の隙間を埋めるベース黒 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,7 +86,29 @@ canvas {
     font-family: "Hiragino Kaku Gothic ProN", sans-serif;
 }
 
+/* 背景フェード用の共通レイヤースタイル */
+.top-menu-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0; /* 初期状態は非表示 */
+    z-index: -1; /* メニューコンテンツの背後に配置 */
+    transition: opacity 1.5s ease-in-out; /* フェードイン/アウトの速度（1.5秒かけて滑らかに変化） */
+}
+
+/* 表示中のレイヤー用のアクティブクラス */
+.top-menu-bg.active {
+    opacity: 1; /* 不透明にして表示する */
+}
+
 .menu-content {
+    position: relative;
+    z-index: 10;
+    /* 背景画像より前面に表示させる */
     text-align: center;
     display: flex;
     /* Flexboxを有効にする */
@@ -335,6 +353,39 @@ canvas {
     }
 }
 
+/* スマホ横画面など、縦幅（高さ）が極端に狭い横向き画面向けのレスポンシブ調整 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .menu-content {
+        margin-top: 0px; /* 上部マージンを詰め、上寄りになりすぎないように調整 */
+    }
+
+    #top-logo {
+        max-width: 320px; /* ロゴサイズを大幅に縮小（はみ出し防止） */
+        margin-bottom: 15px; /* ロゴとボタンリスト間の隙間を狭く */
+    }
+
+    .menu-list {
+        gap: 15px; /* ボタン同士の間隔を詰めてコンパクト化 */
+    }
+
+    .menu-button {
+        width: 180px; /* ボタン全体の横幅を縮小 */
+        font-size: 13px; /* ボタンの文字（フォント）を小さく調整 */
+        padding: 8px 15px; /* ボタンの内側余白（パディング）を小さく */
+        margin: 5px auto;
+        border-radius: 8px; /* ボタンサイズに合わせて角丸も小さめに調整 */
+        box-shadow:
+            0 6px 12px rgba(0, 0, 0, 0.8),
+            inset 0 0 10px rgba(255, 255, 255, 0.3),
+            0 0 8px rgba(255, 204, 0, 0.6); /* 縮小に合わせたシャドウの調整 */
+    }
+
+    /* ホバー時の浮き上がり量と拡大率も、画面の高さに合わせて控えめに調整 */
+    .menu-button:hover {
+        transform: translateY(-3px) scale(1.04);
+    }
+}
+
 /* ==================================== */
 /*  画面回転を促す警告画面のスタイル（LED発車標風）  */
 /* ==================================== */
@@ -442,7 +493,6 @@ canvas {
     }
 
     .led-table-header {
-        border: none;
         background-color: #0c0c0c;
         border-bottom: 2px solid #1a1a1a;
         color: #555;

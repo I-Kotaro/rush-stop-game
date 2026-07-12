@@ -43,6 +43,10 @@
 
     <!-- トップメニューはコンテナの外（body直下）に配置し、画面全体に広げる -->
     <div id="top-menu">
+        <!-- 背景フェード用の要素（JSで交互に切り替えるため2つのレイヤーで固定） -->
+        <div id="menu-bg-1" class="top-menu-bg"></div>
+        <div id="menu-bg-2" class="top-menu-bg"></div>
+
         <div class="menu-content">
             <img id="top-logo" src="images/top-logo.png" alt="駅員駆け込み阻止ゲーム" />
             <!-- メニュー選択肢 -->

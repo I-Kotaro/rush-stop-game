@@ -66,3 +66,322 @@ canvas {
     cursor: none;
     /* マウスカーソルを非表示にして駅員に集中させる */
 }
+
+/* ==================================== */
+/*  デジタルHUD & オーバーレイ画面       */
+/* ==================================== */
+
+/* ドット格子マスクエフェクト（共通） */
+.led-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+    background-size: 100% 4px, 6px 100%;
+    z-index: 10 !important;
+    pointer-events: none;
+}
+
+/* LED発光共通カラー */
+.led-red {
+    color: #ff3300 !important;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.8), 0 0 12px rgba(255, 51, 0, 0.4) !important;
+}
+
+.led-orange {
+    color: #ffaa00 !important;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8), 0 0 12px rgba(255, 170, 0, 0.4) !important;
+}
+
+.led-green {
+    color: #33ff00 !important;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.8), 0 0 12px rgba(51, 255, 0, 0.4) !important;
+}
+
+.led-cyan {
+    color: #00ffff !important;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8), 0 0 12px rgba(0, 255, 255, 0.4) !important;
+}
+
+/* ゲーム中HUDの筐体設計 */
+#game-hud {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 900px;
+    background-color: #1b1b1b;
+    border: 6px solid #000000;
+    border-bottom: 9px solid #1f1f1f;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 5px;
+    box-sizing: border-box;
+    z-index: 99;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.8),
+        inset 0 0 12px rgba(0, 0, 0, 0.95);
+    overflow: hidden;
+}
+
+#game-hud .hud-item {
+    position: relative;
+    z-index: 5;
+    /* ドット格子(10)の裏に配置して重ねる */
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* 各項目の発光割り当て */
+.hud-stage {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+.hud-timer {
+    color: #ffaa00;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
+    font-size: 1.75rem !important;
+}
+
+.hud-score {
+    color: #00ffff;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+}
+
+.hud-success {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+.hud-failed {
+    color: #ff3300;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.7);
+}
+
+/* オーバーレイ画面（リザルトやステージクリア）の共通スタイル */
+.overlay-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow: hidden;
+}
+
+.overlay-screen.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* LED掲示板を模したボックススタイル */
+.result-box,
+.clear-box {
+    position: relative;
+    background-color: #181818;
+    border: 8px solid #000000;
+    border-bottom: 12px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 30px;
+    width: 82%;
+    max-width: 620px;
+    text-align: center;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        inset 0 0 20px rgba(0, 0, 0, 0.95);
+    overflow: hidden;
+}
+
+/* 内包コンテンツをLEDグリッドの下層に重ねる */
+.result-box *:not(.led-grid),
+.clear-box *:not(.led-grid) {
+    position: relative;
+    z-index: 5;
+}
+
+/* ステージクリア表示 */
+.clear-box {
+    border-color: #1f3a1f;
+    border-bottom-color: #152a15;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(51, 255, 0, 0.15),
+        inset 0 0 20px rgba(0, 0, 0, 0.95);
+}
+
+.clear-box h2 {
+    color: #33ff00;
+    font-size: 2.5rem;
+    margin-top: 0;
+    text-shadow: 0 0 10px rgba(51, 255, 0, 0.8), 0 0 20px rgba(51, 255, 0, 0.4);
+    letter-spacing: 3px;
+}
+
+.clear-box p {
+    color: #ffaa00;
+    font-size: 1.2rem;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.6);
+    margin-bottom: 0;
+}
+
+/* リザルト画面の電光案内標化 */
+.result-box {
+    border-color: #3a2e1f;
+    border-bottom-color: #2a1f15;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(255, 170, 0, 0.1),
+        inset 0 0 20px rgba(0, 0, 0, 0.95);
+}
+
+.result-box h2 {
+    color: #ffaa00;
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
+    border-bottom: 3px double #333;
+    padding-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.result-stats {
+    margin-bottom: 25px;
+    text-align: left;
+    display: inline-block;
+    width: 90%;
+    background-color: #000;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+.result-row {
+    font-size: 1.15rem;
+    margin: 14px 0;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    border-bottom: 1px dashed #111;
+    padding-bottom: 6px;
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.result-row span {
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    font-weight: bold;
+    color: #fff;
+    margin-left: 10px;
+}
+
+#res-stage {
+    color: #00ffff;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+}
+
+#res-success {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+#res-failed {
+    color: #ff3300;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.7);
+}
+
+.result-row.total-score {
+    font-size: 1.45rem;
+    border-top: 2px solid #222;
+    padding-top: 15px;
+    margin-top: 15px;
+    color: #ffaa00;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.5);
+}
+
+#res-score {
+    color: #00ffff;
+    font-size: 1.9rem;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+/* 駅長評価（テロップ掲示板風） */
+.result-evaluation {
+    background-color: #000;
+    border: 2px solid #222;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.result-evaluation h3 {
+    margin-top: 0;
+    color: #ffaa00;
+    font-size: 1.1rem;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.6);
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    border-bottom: 1px solid #222;
+    padding-bottom: 4px;
+}
+
+#res-eval-text {
+    margin: 5px 0 0 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #33ff00;
+    /* LEDメッセージはグリーン */
+    text-shadow: 0 0 5px rgba(51, 255, 0, 0.7);
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+}
+
+/* アクションボタン（角ばったLED案内風） */
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.result-actions .menu-button {
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 12px 24px;
+    min-width: 170px;
+    border: 3px solid #444;
+    background-color: #111;
+    color: #ffaa00;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 5px rgba(255, 170, 0, 0.6);
+    transition: all 0.2s ease;
+}
+
+.result-actions .menu-button:hover {
+    background-color: #222;
+    border-color: #ffaa00;
+    box-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
+}

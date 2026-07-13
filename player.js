@@ -26,14 +26,14 @@ export class Player {
         }
     }
     /**
-     * 当たり判定（ヒットボックス）を取得する（画像中央の1/3の大きさ）
+     * 当たり判定（ヒットボックス）を取得する（画像中央の1/4の大きさ）
      */
     getHitbox() {
         return {
-            x: this.x + this.width / 3,
-            y: this.y + this.height / 3,
-            width: this.width / 3,
-            height: this.height / 3
+            x: this.x + this.width * 0.375, // 左右に 37.5% の余白
+            y: this.y + this.height * 0.375, // 上下に 37.5% の余白
+            width: this.width * 0.25, // 中央の 25% (1/4)
+            height: this.height * 0.25
         };
     }
 }

@@ -1,11 +1,12 @@
 // === メニューのクリックイベント処理 & 背景フェード制御 ===
+import { startNewGame } from "./game.js";
 
 // 背景画像のリスト (追加・削除はこの配列を編集するだけで完了)
 const bgImages: string[] = [
     "images/top-back1.jpg",
     "images/top-back2.jpg",
     "images/top-back3.jpg",
-    "images/top-back4.png"
+    "images/top-back4.jpg"
 ];
 
 let currentBgIndex = 0;
@@ -92,6 +93,9 @@ function startGame(): void {
     }
 
     console.log("ゲームが開始されました");
+
+    // ゲームの初期化と第一ステージの開始を実行
+    startNewGame();
 }
 
 // ゲームスタートボタンを押したとき

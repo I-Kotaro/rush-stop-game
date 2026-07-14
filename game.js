@@ -60,6 +60,7 @@ let player;
 const passengers = [];
 let lastSpawnTime = 0;
 let lastTime = 0; // 前フレームのタイムスタンプ
+let lastSpawnedDoorIndex = -1; // 直前に客が出現したドアのインデックスを保持する変数
 let gameState = "TITLE";
 // ステージごとの難易度調整テーブル
 const STAGE_CONFIGS = [
@@ -226,7 +227,15 @@ function checkCollision(rect1, rect2) {
 // 客を生成する関数（狙うドアの真下から出現し、直進する）
 function spawnPassenger() {
     const config = STAGE_CONFIGS[currentStageIndex];
-    const randomDoorIndex = Math.floor(Math.random() * doorsX.length);
+    // 直前のドアと被らないようにインデックスを選択する
+    let randomDoorIndex = Math.floor(Math.random() * doorsX.length);
+    if (lastSpawnedDoorIndex !== -1) {
+        // 直前と同じドアが選ばれた場合、残りの3つのドアからランダムに再選択する
+        while (randomDoorIndex === lastSpawnedDoorIndex) {
+            randomDoorIndex = Math.floor(Math.random() * doorsX.length);
+        }
+    }
+    lastSpawnedDoorIndex = randomDoorIndex; // 今回選ばれたドアを記録
     const chosenDoorX = doorsX[randomDoorIndex];
     // ドアの真下からまっすぐ直進するように、出現位置のX座標をドアのX座標に固定（画像幅230の半分だけずらして中心をドアに合わせる）
     const spawnX = chosenDoorX - 230 / 2;

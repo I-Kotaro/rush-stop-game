@@ -335,6 +335,7 @@ canvas {
     padding: 15px;
     margin-bottom: 25px;
     text-align: left;
+    z-index: 15 !important; /* 網目(.led-grid)より前面に配置して網目を消す */
 }
 
 .result-evaluation h3 {
@@ -362,6 +363,7 @@ canvas {
     display: flex;
     justify-content: center;
     gap: 20px;
+    z-index: 15 !important; /* 網目(.led-grid)より前面に配置して網目を消す */
 }
 
 .result-actions .menu-button {

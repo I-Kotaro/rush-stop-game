@@ -145,7 +145,7 @@ function showStageClear() {
     const stageClearOverlay = document.getElementById("stage-clear-overlay");
     const clearTitle = document.getElementById("clear-title");
     if (clearTitle) {
-        clearTitle.textContent = `STAGE ${currentStageIndex + 1} 完了`;
+        clearTitle.textContent = `レベル ${currentStageIndex + 1} 完了`;
     }
     if (stageClearOverlay) {
         stageClearOverlay.style.display = "flex";

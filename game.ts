@@ -184,7 +184,7 @@ function showStageClear() {
     const stageClearOverlay = document.getElementById("stage-clear-overlay");
     const clearTitle = document.getElementById("clear-title");
     if (clearTitle) {
-        clearTitle.textContent = `STAGE ${currentStageIndex + 1} 完了`;
+        clearTitle.textContent = `レベル ${currentStageIndex + 1} 完了`;
     }
     if (stageClearOverlay) {
         stageClearOverlay.style.display = "flex";
@@ -272,7 +272,7 @@ function checkCollision(rect1: Rect, rect2: Rect): boolean {
 // 客を生成する関数（狙うドアの真下から出現し、直進する）
 function spawnPassenger() {
     const config = STAGE_CONFIGS[currentStageIndex];
-    
+
     // 直前のドアと被らないようにインデックスを選択する
     let randomDoorIndex = Math.floor(Math.random() * doorsX.length);
     if (lastSpawnedDoorIndex !== -1) {

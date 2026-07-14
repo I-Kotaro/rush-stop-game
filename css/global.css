@@ -304,9 +304,9 @@ canvas {
 .result-row {
     font-size: 1.15rem;
     margin: 14px 0;
-    color: #888;
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
     border-bottom: 1px dashed #111;
     padding-bottom: 6px;
@@ -316,7 +316,12 @@ canvas {
     border-bottom: none;
 }
 
-.result-row span {
+.result-row .res-label {
+    color: #888;
+    font-weight: normal;
+}
+
+.result-row .res-val {
     font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
     font-weight: bold;
     color: #fff;

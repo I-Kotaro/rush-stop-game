@@ -119,7 +119,7 @@
         <div id="stage-clear-overlay" class="overlay-screen" style="display: none;">
             <div class="clear-box">
                 <div class="led-grid"></div>
-                <h2 id="clear-title">レベル ★ 完了</h2>
+                <h2 id="clear-title">レベル ★ 終了</h2>
                 <p>まもなく次のステージが始まります。</p>
                 <p style="margin-top: 15px; font-size: 1.3rem;">開始まであと <span id="clear-countdown" class="led-orange"
                         style="font-size: 1.8rem; font-weight: bold; margin: 0 5px;">5</span> 秒</p>
@@ -132,11 +132,18 @@
                 <div class="led-grid"></div>
                 <h2>--- 運行結果報告 ---</h2>
                 <div class="result-stats">
-                    <div class="result-row">総阻止成功数: <span id="res-success">0</span>回 (+<span
-                            id="res-success-pt">0</span>点)</div>
-                    <div class="result-row">総阻止失敗数: <span id="res-failed">0</span>回 (-<span
-                            id="res-failed-pt">0</span>点)</div>
-                    <div class="result-row total-score">総合評価スコア: <span id="res-score">0</span>点</div>
+                    <div class="result-row">
+                        <span class="res-label">総阻止成功数</span>
+                        <span class="res-val"><span id="res-success">0</span>回 (+<span id="res-success-pt">0</span>点)</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="res-label">総阻止失敗数</span>
+                        <span class="res-val"><span id="res-failed">0</span>回 (-<span id="res-failed-pt">0</span>点)</span>
+                    </div>
+                    <div class="result-row total-score">
+                        <span class="res-label">総合評価スコア</span>
+                        <span class="res-val"><span id="res-score">0</span>点</span>
+                    </div>
                 </div>
                 <div class="result-evaluation">
                     <h3>【駅長からの評価】</h3>

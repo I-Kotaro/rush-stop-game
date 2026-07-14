@@ -29,7 +29,7 @@ body::before {
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background-image: url("../images/train.jpg");
+    background-image: url("../images/game-back-train.jpg");
     /* ユーザーが指定した背景画像を使用 */
     /* 注：cssフォルダーに移動するため、imagesへの相対パスの階層が1つ上がって "../images/..." になります */
     background-size: cover;

@@ -8,6 +8,10 @@ body {
     margin: 0;
     overflow: hidden;
     /* モバイル等での不要なスクロール・バウンスを完全に防止 */
+    user-select: none;
+    -webkit-user-select: none; /* iOS Safari用 */
+    -moz-user-select: none;    /* Firefox用 */
+    -ms-user-select: none;     /* IE10+/Edge用 */
 }
 
 body {
@@ -29,7 +33,7 @@ body::before {
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background-image: url("../images/train.jpg");
+    background-image: url("../images/game-back-train.jpg");
     /* ユーザーが指定した背景画像を使用 */
     /* 注：cssフォルダーに移動するため、imagesへの相対パスの階層が1つ上がって "../images/..." になります */
     background-size: cover;
@@ -65,4 +69,498 @@ canvas {
     display: block;
     cursor: none;
     /* マウスカーソルを非表示にして駅員に集中させる */
+}
+
+/* ==================================== */
+/*  デジタルHUD & オーバーレイ画面       */
+/* ==================================== */
+
+/* ドット格子マスクエフェクト（共通） */
+.led-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+    background-size: 100% 4px, 6px 100%;
+    z-index: 10 !important;
+    pointer-events: none;
+}
+
+/* LED発光共通カラー */
+.led-red {
+    color: #ff3300 !important;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.8), 0 0 12px rgba(255, 51, 0, 0.4) !important;
+}
+
+.led-orange {
+    color: #ffaa00 !important;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8), 0 0 12px rgba(255, 170, 0, 0.4) !important;
+}
+
+.led-green {
+    color: #33ff00 !important;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.8), 0 0 12px rgba(51, 255, 0, 0.4) !important;
+}
+
+.led-cyan {
+    color: #00ffff !important;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8), 0 0 12px rgba(0, 255, 255, 0.4) !important;
+}
+
+/* ゲーム中HUDの筐体設計 */
+#game-hud {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 900px;
+    background-color: #1b1b1b;
+    border: 6px solid #0f0f0f;
+    border-top-color: #262626;
+    /* 上面：微細なハイライト */
+    border-bottom: 9px solid #050505;
+    /* 下面：深い影 */
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 5px;
+    box-sizing: border-box;
+    z-index: 99;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.8),
+        /* 外側のドロップシャドウ */
+        inset 0 0 0 1px #000000,
+        /* 筐体枠と液晶パネルの境界の「深い溝」 */
+        inset 0 0 0 2px #2d2d2d,
+        /* 筐体枠の内側の「エッジ反射ライン」 */
+        inset 0 4px 5px -2px rgba(0, 0, 0, 0.95),
+        /* 💡上ベゼルの厚みによって液晶に落ちる薄い影 */
+        inset 4px 0 5px -2px rgba(0, 0, 0, 0.85),
+        /* 💡左ベゼルの厚みによって液晶に落ちる薄い影 */
+        inset 0 0 12px rgba(0, 0, 0, 0.95);
+    /* 液晶の奥まり感 */
+    overflow: hidden;
+}
+
+#game-hud .hud-item {
+    position: relative;
+    z-index: 5;
+    /* ドット格子(10)の裏に配置して重ねる */
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    flex: 1;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* 数値の桁数変動によるテキストのブレ（ズレ）を防止 */
+#hud-time-val {
+    display: inline-block;
+    min-width: 3.5em;
+    text-align: right;
+}
+
+#hud-score-val {
+    display: inline-block;
+    min-width: 4em;
+    text-align: right;
+}
+
+#hud-success-val,
+#hud-failed-val {
+    display: inline-block;
+    min-width: 2em;
+    text-align: right;
+}
+
+/* 各項目の発光割り当て */
+.hud-stage {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+.hud-timer {
+    color: #ffaa00;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
+}
+
+.hud-score {
+    color: #00ffff;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+}
+
+.hud-success {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+.hud-failed {
+    color: #ff3300;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.7);
+}
+
+/* オーバーレイ画面（リザルトやステージクリア）の共通スタイル */
+.overlay-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow: hidden;
+}
+
+.overlay-screen.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* LED掲示板を模したボックススタイル */
+.result-box,
+.clear-box {
+    position: relative;
+    background-color: #1b1b1b;
+    /* HUDと統一したモニター背景色 */
+    border: 8px solid #0f0f0f;
+    border-top-color: #262626;
+    /* 上面：微細なハイライト */
+    border-bottom: 12px solid #050505;
+    /* 下面：深い影 */
+    border-radius: 8px;
+    padding: 30px;
+    width: 82%;
+    max-width: 620px;
+    text-align: center;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        /* 外側のドロップシャドウ */
+        inset 0 0 0 1px #000000,
+        /* 筐体枠と液晶パネルの境界の「深い溝」 */
+        inset 0 0 0 2px #2d2d2d,
+        /* 筐体枠の内側の「エッジ反射ライン」 */
+        inset 0 6px 8px -3px rgba(0, 0, 0, 0.95),
+        /* 💡上ベゼルの厚みによって画面に落ちる薄い影 */
+        inset 6px 0 8px -3px rgba(0, 0, 0, 0.85),
+        /* 💡左ベゼルの厚みによって画面に落ちる薄い影 */
+        inset 0 0 12px rgba(0, 0, 0, 0.95);
+    /* 液晶と同様の内側の影 */
+    overflow: hidden;
+}
+
+/* 内包コンテンツをLEDグリッドの下層に重ねる */
+.result-box *:not(.led-grid),
+.clear-box *:not(.led-grid) {
+    position: relative;
+    z-index: 5;
+}
+
+/* ステージクリア表示 */
+.clear-box {
+    /* 外枠・モニター色は共通設定（HUD統一）に準拠 */
+}
+
+.clear-box h2 {
+    color: #33ff00;
+    font-size: 2.5rem;
+    margin-top: 0;
+    text-shadow: 0 0 10px rgba(51, 255, 0, 0.8), 0 0 20px rgba(51, 255, 0, 0.4);
+    letter-spacing: 3px;
+}
+
+.clear-box p {
+    color: #ffaa00;
+    font-size: 1.2rem;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.6);
+    margin-bottom: 0;
+}
+
+/* リザルト画面の電光案内標化 */
+.result-box {
+    /* 外枠・モニター色は共通設定（HUD統一）に準拠 */
+}
+
+.result-box h2 {
+    color: #ffaa00;
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px rgba(255, 170, 0, 0.8);
+    border-bottom: 3px double #333;
+    padding-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.result-stats {
+    margin-bottom: 25px;
+    text-align: left;
+    display: inline-block;
+    width: 90%;
+    background-color: #000;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+.result-row {
+    font-size: 1.15rem;
+    margin: 14px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    border-bottom: 1px dashed #111;
+    padding-bottom: 6px;
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.result-row .res-label {
+    color: #888;
+    font-weight: normal;
+}
+
+.result-row .res-val {
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    font-weight: bold;
+    color: #fff;
+    margin-left: 10px;
+}
+
+#res-stage {
+    color: #00ffff;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+}
+
+#res-success {
+    color: #33ff00;
+    text-shadow: 0 0 6px rgba(51, 255, 0, 0.7);
+}
+
+#res-failed {
+    color: #ff3300;
+    text-shadow: 0 0 6px rgba(255, 51, 0, 0.7);
+}
+
+.result-row.total-score {
+    font-size: 1.45rem;
+    border-top: 2px solid #222;
+    padding-top: 15px;
+    margin-top: 15px;
+    color: #ffaa00;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.5);
+}
+
+#res-score {
+    color: #00ffff;
+    font-size: 1.9rem;
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+/* 駅長評価（テロップ掲示板風） */
+.result-evaluation {
+    background-color: #000;
+    border: 2px solid #222;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 25px;
+    text-align: left;
+    z-index: 15 !important;
+    /* 網目(.led-grid)より前面に配置して網目を消す */
+}
+
+.result-evaluation h3 {
+    margin-top: 0;
+    color: #ffaa00;
+    font-size: 1.1rem;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.6);
+    font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+    border-bottom: 1px solid #222;
+    padding-bottom: 4px;
+}
+
+#res-eval-text {
+    margin: 5px 0 0 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #33ff00;
+    /* LEDメッセージはグリーン */
+    text-shadow: 0 0 5px rgba(51, 255, 0, 0.7);
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+}
+
+/* アクションボタン（角ばったLED案内風） */
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 15 !important;
+    /* 網目(.led-grid)より前面に配置して網目を消す */
+}
+
+.result-actions .menu-button {
+    font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 12px 24px;
+    min-width: 170px;
+    border: 3px solid #444;
+    background-color: #111;
+    color: #ffaa00;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 5px rgba(255, 170, 0, 0.6);
+    transition: all 0.2s ease;
+}
+
+.result-actions .menu-button:hover {
+    background-color: #222;
+    border-color: #ffaa00;
+    box-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
+}
+
+/* ==================================== */
+/*  スマートフォン向けレスポンシブ調整   */
+/* ==================================== */
+@media (max-width: 850px),
+(max-height: 480px) {
+
+    /* ゲーム中HUDの縮小調整 */
+    #game-hud {
+        top: 4px;
+        padding: 4px 2px;
+        border-width: 3px;
+        border-bottom-width: 5px;
+    }
+
+    #game-hud .hud-item {
+        font-size: 0.85rem;
+        /* さらにコンパクトに縮小 */
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+
+    /* 桁数のブレ防止用の幅の縮小 */
+    #hud-time-val {
+        min-width: 2.8em;
+    }
+
+    #hud-score-val {
+        min-width: 3em;
+    }
+
+    #hud-success-val,
+    #hud-failed-val {
+        min-width: 1.2em;
+    }
+
+    /* ポップアップウィンドウ（クリア・リザルト）の縮小調整 */
+    .result-box,
+    .clear-box {
+        border-width: 5px;
+        border-bottom-width: 8px;
+    }
+
+    .result-box {
+        padding: 15px 20px;
+        max-width: 440px;
+        /* 横幅をスリムに圧縮 */
+    }
+
+    /* ステージクリア表示（リザルトより情報が少ないため、さらにコンパクトに縮小） */
+    .clear-box {
+        padding: 8px 15px;
+        max-width: 380px;
+    }
+
+    .clear-box h2 {
+        font-size: 1.4rem;
+        margin-top: 5px;
+        margin-bottom: 3px;
+        letter-spacing: 1px;
+    }
+
+    .clear-box p {
+        font-size: 0.85rem;
+        margin: 4px 0;
+    }
+
+    /* カウントダウン秒数表示の微調整 */
+    .clear-box p span {
+        font-size: 1.4rem !important;
+    }
+
+    /* リザルト表示 (さらに一回りスリムに縮小) */
+    .result-box h2 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+    }
+
+    .result-stats {
+        margin-bottom: 8px;
+        padding: 4px 10px;
+    }
+
+    .result-row {
+        font-size: 0.85rem;
+        margin: 6px 0;
+        padding-bottom: 3px;
+    }
+
+    .result-row.total-score {
+        font-size: 1.05rem;
+        margin-top: 6px;
+        padding-top: 6px;
+    }
+
+    #res-score {
+        font-size: 1.25rem;
+    }
+
+    .result-evaluation {
+        padding: 6px 10px;
+        margin-bottom: 8px;
+    }
+
+    .result-evaluation h3 {
+        font-size: 0.85rem;
+        margin-bottom: 2px;
+        padding-bottom: 1px;
+    }
+
+    #res-eval-text {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .result-actions {
+        gap: 8px;
+    }
+
+    .result-actions .menu-button {
+        font-size: 0.85rem;
+        padding: 6px 14px;
+        min-width: 110px;
+        border-width: 2px;
+    }
 }

@@ -11,6 +11,7 @@ export class Passenger {
     public bounceVx: number = 0;
     public bounceVy: number = 0;
     public alpha: number = 1.0;
+    public currentScale: number = 1.0; // 現在の縮小スケール
     public color: string = "rgba(0, 100, 255, 0.9)"; // 初期は青系統
 
     constructor(x: number, y: number, width: number, height: number, speed: number, targetX: number, image: HTMLImageElement) {
@@ -31,14 +32,24 @@ export class Passenger {
         if (!this.isBounced) {
             // ドアに向かって走る (Y軸の目的地は客の上端 p.y)
             const dx = this.targetX - (this.x + this.width / 2);
-            const dy = targetDoorY - this.y;
+            const targetY = targetDoorY - this.height * 0.3; // 画像の半分までドアの奥に進む
+
+            // 現在のY座標に基づいてスケールを計算 (手前で1.0、ドア奥で0.7になるよう線形補間)
+            const startY = canvasHeight;
+            const range = startY - targetY;
+            if (range > 0) {
+                const t = Math.max(0, Math.min(1, (startY - this.y) / range));
+                this.currentScale = 1.0 - t * 0.15; // 0.7倍まで縮小
+            }
+
+            const dy = targetY - this.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance > 0) {
                 if (distance <= this.speed) {
                     // 残り距離がスピード以下の場合は、直接目的地（ドア）にピッタリ合わせる
                     this.x = this.targetX - this.width / 2;
-                    this.y = targetDoorY;
+                    this.y = targetY;
                 } else {
                     this.x += (dx / distance) * this.speed;
                     this.y += (dy / distance) * this.speed;
@@ -66,7 +77,14 @@ export class Passenger {
     public draw(ctx: CanvasRenderingContext2D): void {
         ctx.save();
         ctx.globalAlpha = this.alpha;
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+        // 足元中央を基準に縮小した描画座標を計算
+        const drawWidth = this.width * this.currentScale;
+        const drawHeight = this.height * this.currentScale;
+        const drawX = (this.x + this.width / 2) - drawWidth / 2;
+        const drawY = (this.y + this.height) - drawHeight;
+
+        ctx.drawImage(this.image, drawX, drawY, drawWidth, drawHeight);
         ctx.restore();
     }
 
@@ -77,7 +95,7 @@ export class Passenger {
      */
     public bounce(isBarrier: boolean, sourceCenterX?: number): void {
         this.isBounced = true;
-        
+
         const pCenterX = this.x + this.width / 2;
         if (isBarrier) {
             // バリア（ホームドア）で弾かれた場合は、シアン色になり、左右にランダムに散る
@@ -94,14 +112,19 @@ export class Passenger {
     }
 
     /**
-     * 当たり判定（ヒットボックス）を取得する（画像中央の1/3の大きさ）
+     * 当たり判定（ヒットボックス）を取得する（画像中央の1/5の大きさ）
      */
     public getHitbox() {
+        const drawWidth = this.width * this.currentScale;
+        const drawHeight = this.height * this.currentScale;
+        const drawX = (this.x + this.width / 2) - drawWidth / 2;
+        const drawY = (this.y + this.height) - drawHeight;
+
         return {
-            x: this.x + this.width / 3,
-            y: this.y + this.height / 3,
-            width: this.width / 3,
-            height: this.height / 3
+            x: drawX + drawWidth * 0.4,   // 左右に 40% の余白
+            y: drawY + drawHeight * 0.4,   // 上下に 40% の余白
+            width: drawWidth * 0.2,       // 中央の 20% (1/5)
+            height: drawHeight * 0.2
         };
     }
 }

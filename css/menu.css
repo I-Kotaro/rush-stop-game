@@ -315,7 +315,10 @@
     border-radius: 15px;
     width: 90%;
     max-width: 500px;
-    padding: 25px;
+    max-height: 90vh; /* 💡最大高さを画面の90%に制限 */
+    display: flex;
+    flex-direction: column; /* 💡内部をフレックス縦並びにする */
+    padding: 20px 25px;
     color: #fff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 204, 0, 0.4);
     box-sizing: border-box;
@@ -329,12 +332,29 @@
     border-bottom: 2px solid #333;
     padding-bottom: 10px;
     letter-spacing: 1px;
+    flex-shrink: 0; /* 💡ヘッダーが潰れるのを防ぐ */
 }
 
 .modal-body {
-    margin: 20px 0;
+    margin: 15px 0;
     font-size: 13px;
     line-height: 1.6;
+    overflow-y: auto; /* 💡はみ出た場合は内側でスクロールさせる */
+    flex: 1; /* 💡残りの高さをすべて割り当て */
+    padding-right: 5px;
+}
+
+/* 💡モーダル用スクロールバーのカスタマイズ */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background: #ffcc00;
+    border-radius: 3px;
 }
 
 .rule-intro {
@@ -365,8 +385,9 @@
 
 .modal-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* 💡チェックボックスとボタンを縦に並べる */
+    align-items: center; /* 💡中央寄せにする */
+    gap: 12px; /* 💡要素間の隙間 */
     border-top: 1px solid #333;
     padding-top: 15px;
 }
@@ -411,6 +432,7 @@
 @media (max-height: 500px) and (orientation: landscape) {
     .modal-content {
         max-width: 480px;
+        max-height: 95vh; /* 💡横画面時は画面上限いっぱいまで高さを確保 */
         padding: 12px 20px;
         border-width: 3px;
         border-radius: 10px;

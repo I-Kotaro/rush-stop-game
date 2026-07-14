@@ -1,18 +1,18 @@
-"use strict";
 // === メニューのクリックイベント処理 & 背景フェード制御 ===
+import { startNewGame } from "./game.js";
 // 背景画像のリスト (追加・削除はこの配列を編集するだけで完了)
 const bgImages = [
     "images/top-back1.jpg",
     "images/top-back2.jpg",
     "images/top-back3.jpg",
-    "images/top-back4.png"
+    "images/top-back4.jpg"
 ];
 let currentBgIndex = 0;
 let bgTimer = null;
 // HTML要素を取得（型を明示）
 const topMenu = document.getElementById("top-menu");
 const btnStart = document.getElementById("btn-start");
-const btnRanking = document.getElementById("btn-ranking");
+// const btnRanking = document.getElementById("btn-ranking") as HTMLElement | null;
 // 背景切り替え処理の初期化
 function initBackgroundFade() {
     const bg1 = document.getElementById("menu-bg-1");
@@ -77,6 +77,8 @@ function startGame() {
         bgTimer = null;
     }
     console.log("ゲームが開始されました");
+    // ゲームの初期化と第一ステージの開始を実行
+    startNewGame();
 }
 // ゲームスタートボタンを押したとき
 btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("click", () => {
@@ -88,13 +90,20 @@ btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("c
         showRules(true); // スキップされていなければルール説明を表示
     }
 });
-// ランキングボタンを押したとき
-btnRanking === null || btnRanking === void 0 ? void 0 : btnRanking.addEventListener("click", () => {
-    alert("実装までしばらくお待ちください！");
-});
+// // ランキングボタンを押したとき
+// btnRanking?.addEventListener("click", (): void => {
+//     alert("実装までしばらくお待ちください！");
+// });
 // 遊び方ボタンを押したとき
 btnRules === null || btnRules === void 0 ? void 0 : btnRules.addEventListener("click", () => {
     showRules(false); // タイトル画面から明示的にルールを再確認
+});
+// モーダルの外側（背景）をクリックしたときにタイトル画面に戻る（キャンセル）
+rulesModal === null || rulesModal === void 0 ? void 0 : rulesModal.addEventListener("click", (event) => {
+    if (event.target === rulesModal) {
+        rulesModal.style.display = "none";
+        isOpenedFromStart = false; // ゲーム開始フラグをクリアしてキャンセル
+    }
 });
 // モーダル内のボタン（ゲーム開始 / 閉じる）を押したとき
 btnCloseRules === null || btnCloseRules === void 0 ? void 0 : btnCloseRules.addEventListener("click", () => {

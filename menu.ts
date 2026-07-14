@@ -15,7 +15,7 @@ let bgTimer: number | null = null;
 // HTML要素を取得（型を明示）
 const topMenu = document.getElementById("top-menu") as HTMLElement | null;
 const btnStart = document.getElementById("btn-start") as HTMLElement | null;
-const btnRanking = document.getElementById("btn-ranking") as HTMLElement | null;
+// const btnRanking = document.getElementById("btn-ranking") as HTMLElement | null;
 
 // 背景切り替え処理の初期化
 function initBackgroundFade(): void {
@@ -109,10 +109,10 @@ btnStart?.addEventListener("click", (): void => {
     }
 });
 
-// ランキングボタンを押したとき
-btnRanking?.addEventListener("click", (): void => {
-    alert("実装までしばらくお待ちください！");
-});
+// // ランキングボタンを押したとき
+// btnRanking?.addEventListener("click", (): void => {
+//     alert("実装までしばらくお待ちください！");
+// });
 
 // 遊び方ボタンを押したとき
 btnRules?.addEventListener("click", (): void => {

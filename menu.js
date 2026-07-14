@@ -12,7 +12,6 @@ let bgTimer = null;
 // HTML要素を取得（型を明示）
 const topMenu = document.getElementById("top-menu");
 const btnStart = document.getElementById("btn-start");
-const btnRanking = document.getElementById("btn-ranking");
 // 背景切り替え処理の初期化
 function initBackgroundFade() {
     const bg1 = document.getElementById("menu-bg-1");
@@ -90,10 +89,7 @@ btnStart === null || btnStart === void 0 ? void 0 : btnStart.addEventListener("c
         showRules(true); // スキップされていなければルール説明を表示
     }
 });
-// ランキングボタンを押したとき
-btnRanking === null || btnRanking === void 0 ? void 0 : btnRanking.addEventListener("click", () => {
-    alert("実装までしばらくお待ちください！");
-});
+
 // 遊び方ボタンを押したとき
 btnRules === null || btnRules === void 0 ? void 0 : btnRules.addEventListener("click", () => {
     showRules(false); // タイトル画面から明示的にルールを再確認

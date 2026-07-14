@@ -57,11 +57,11 @@
                         ゲームスタート
                     </button>
                 </li>
-                <li>
+                <!-- <li>
                     <button id="btn-ranking" class="menu-button">
                         ランキング（実装予定）
                     </button>
-                </li>
+                </li> -->
                 <li>
                     <button id="btn-rules" class="menu-button">
                         遊び方
@@ -80,17 +80,18 @@
                 <div class="rule-section">
                     <h3>【ルール】</h3>
                     <ul>
-                        <li>マウス（スマホは画面スワイプ）で駅員を左右に操作します。</li>
+                        <li>マウス（スマホはスワイプ）で駅員を左右に操作します。</li>
                         <li>駆け込んでくるお客様に体当たりして、ご乗車を阻止してください。</li>
-                        <li>お客様が駆け込み乗車に成功すると「遅延時間」が増加します。</li>
-                        <li>遅延時間が限界に達するとゲームオーバーです。</li>
+                        <li>見事阻止できると <strong>「阻止人数」が＋1され、得点が＋100点</strong> されます。</li>
+                        <li>阻止できずお客様がドアに到達すると「突破」となり、<strong>得点が－300点</strong> されます。</li>
+                        <li>各レベルは <strong>制限時間30秒</strong> です。全5ステージをクリアした最終合計スコアで、駅長からの評価が決まります！</li>
                     </ul>
                 </div>
                 <div class="rule-section">
                     <h3>【操作方法】</h3>
                     <ul>
-                        <li>PC操作：マウスを左右に動かすと駅員が追従します。</li>
-                        <li>スマホ操作：画面を左右にスワイプすると駅員が追従します。</li>
+                        <li>PC操作：マウスを左右に動かすと、駅員が左右に追従します。</li>
+                        <li>スマホ操作：画面を左右にスワイプ（タッチして移動）すると、駅員が左右に追従します。</li>
                     </ul>
                 </div>
             </div>
@@ -134,11 +135,13 @@
                 <div class="result-stats">
                     <div class="result-row">
                         <span class="res-label">総阻止成功数</span>
-                        <span class="res-val"><span id="res-success">0</span>回 (+<span id="res-success-pt">0</span>点)</span>
+                        <span class="res-val"><span id="res-success">0</span>回 (+<span
+                                id="res-success-pt">0</span>点)</span>
                     </div>
                     <div class="result-row">
                         <span class="res-label">総阻止失敗数</span>
-                        <span class="res-val"><span id="res-failed">0</span>回 (-<span id="res-failed-pt">0</span>点)</span>
+                        <span class="res-val"><span id="res-failed">0</span>回 (-<span
+                                id="res-failed-pt">0</span>点)</span>
                     </div>
                     <div class="result-row total-score">
                         <span class="res-label">総合評価スコア</span>

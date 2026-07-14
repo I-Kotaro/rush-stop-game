@@ -8,6 +8,10 @@ body {
     margin: 0;
     overflow: hidden;
     /* モバイル等での不要なスクロール・バウンスを完全に防止 */
+    user-select: none;
+    -webkit-user-select: none; /* iOS Safari用 */
+    -moz-user-select: none;    /* Firefox用 */
+    -ms-user-select: none;     /* IE10+/Edge用 */
 }
 
 body {

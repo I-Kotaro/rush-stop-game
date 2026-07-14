@@ -117,8 +117,10 @@ canvas {
     max-width: 900px;
     background-color: #1b1b1b;
     border: 6px solid #0f0f0f;
-    border-top-color: #262626; /* 上面：微細なハイライト */
-    border-bottom: 9px solid #050505; /* 下面：深い影 */
+    border-top-color: #262626;
+    /* 上面：微細なハイライト */
+    border-bottom: 9px solid #050505;
+    /* 下面：深い影 */
     border-radius: 6px;
     display: flex;
     justify-content: space-around;
@@ -128,10 +130,14 @@ canvas {
     z-index: 99;
     font-family: 'Hiragino Kaku Gothic ProN', 'MS Gothic', monospace;
     box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.8), /* 外側のドロップシャドウ */
-        inset 0 0 0 1px #000000, /* 筐体枠と液晶パネルの境界の「深い溝」 */
-        inset 0 0 0 2px #2d2d2d, /* 筐体枠の内側の「エッジ反射ライン」 */
-        inset 0 0 12px rgba(0, 0, 0, 0.95); /* 液晶の奥まり感 */
+        0 8px 20px rgba(0, 0, 0, 0.8),
+        /* 外側のドロップシャドウ */
+        inset 0 0 0 1px #000000,
+        /* 筐体枠と液晶パネルの境界の「深い溝」 */
+        inset 0 0 0 2px #2d2d2d,
+        /* 筐体枠の内側の「エッジ反射ライン」 */
+        inset 0 0 12px rgba(0, 0, 0, 0.95);
+    /* 液晶の奥まり感 */
     overflow: hidden;
 }
 
@@ -225,17 +231,22 @@ canvas {
     background-color: #1b1b1b;
     /* HUDと統一したモニター背景色 */
     border: 8px solid #0f0f0f;
-    border-top-color: #262626; /* 上面：微細なハイライト */
-    border-bottom: 12px solid #050505; /* 下面：深い影 */
+    border-top-color: #262626;
+    /* 上面：微細なハイライト */
+    border-bottom: 12px solid #050505;
+    /* 下面：深い影 */
     border-radius: 8px;
     padding: 30px;
     width: 82%;
     max-width: 620px;
     text-align: center;
     box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.9), /* 外側のドロップシャドウ */
-        inset 0 0 0 1px #000000, /* 筐体枠と液晶パネルの境界の「深い溝」 */
-        inset 0 0 0 2px #2d2d2d, /* 筐体枠の内側の「エッジ反射ライン」 */
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        /* 外側のドロップシャドウ */
+        inset 0 0 0 1px #000000,
+        /* 筐体枠と液晶パネルの境界の「深い溝」 */
+        inset 0 0 0 2px #2d2d2d,
+        /* 筐体枠の内側の「エッジ反射ライン」 */
         inset 0 0 12px rgba(0, 0, 0, 0.95);
     /* HUDと同様の内側の影 */
     overflow: hidden;

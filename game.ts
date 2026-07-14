@@ -244,14 +244,36 @@ function getEvaluation(finalScore: number): string {
 }
 
 // --- イベントリスナー ---
-// マウスの動きに合わせて駅員を「横移動」
-// canvas から window に変更し、カーソルがゲーム枠外に出ても操作が途切れないようにする
+// マウスとタッチの動きに合わせて駅員を「横移動」
+// canvas から window に変更し、カーソルや指がゲーム枠外に出ても操作が途切れないようにする
 let mouseX = canvas.width / 2;
+
+function updatePosition(clientX: number) {
+    const rect = canvas.getBoundingClientRect();
+    // 💡スマホ等でのCanvas縮小表示を考慮し、DOM上の実ピクセルからCanvas内部の論理幅(1024px)へ変換
+    mouseX = ((clientX - rect.left) / rect.width) * canvas.width;
+}
+
 window.addEventListener("mousemove", (event: MouseEvent) => {
     if (gameState !== "PLAYING") return; // プレイ中のみ動くようにする
-    const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
+    updatePosition(event.clientX);
 });
+
+// 💡スマホでのタッチ操作（タップ・スワイプ移動）に対応
+window.addEventListener("touchstart", (event: TouchEvent) => {
+    if (gameState !== "PLAYING") return;
+    const touch = event.touches[0];
+    updatePosition(touch.clientX);
+    // スワイプによる画面スクロールやバウンスなどのデフォルト動作を防止
+    if (event.cancelable) event.preventDefault();
+}, { passive: false });
+
+window.addEventListener("touchmove", (event: TouchEvent) => {
+    if (gameState !== "PLAYING") return;
+    const touch = event.touches[0];
+    updatePosition(touch.clientX);
+    if (event.cancelable) event.preventDefault();
+}, { passive: false });
 
 // 矩形同士の衝突判定ヘルパー
 interface Rect {

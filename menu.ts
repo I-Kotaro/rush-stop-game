@@ -119,6 +119,14 @@ btnRules?.addEventListener("click", (): void => {
     showRules(false); // タイトル画面から明示的にルールを再確認
 });
 
+// モーダルの外側（背景）をクリックしたときにタイトル画面に戻る（キャンセル）
+rulesModal?.addEventListener("click", (event: MouseEvent): void => {
+    if (event.target === rulesModal) {
+        rulesModal.style.display = "none";
+        isOpenedFromStart = false; // ゲーム開始フラグをクリアしてキャンセル
+    }
+});
+
 // モーダル内のボタン（ゲーム開始 / 閉じる）を押したとき
 btnCloseRules?.addEventListener("click", (): void => {
     if (rulesModal) {

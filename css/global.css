@@ -182,7 +182,6 @@ canvas {
 .hud-timer {
     color: #ffaa00;
     text-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
-    font-size: 1.75rem !important;
 }
 
 .hud-score {
@@ -420,4 +419,125 @@ canvas {
     background-color: #222;
     border-color: #ffaa00;
     box-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
+}
+
+/* ==================================== */
+/*  スマートフォン向けレスポンシブ調整   */
+/* ==================================== */
+@media (max-width: 850px), (max-height: 480px) {
+    /* ゲーム中HUDの縮小調整 */
+    #game-hud {
+        top: 4px;
+        padding: 4px 2px;
+        border-width: 3px;
+        border-bottom-width: 5px;
+    }
+    
+    #game-hud .hud-item {
+        font-size: 0.85rem; /* さらにコンパクトに縮小 */
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+    
+    /* 桁数のブレ防止用の幅の縮小 */
+    #hud-time-val {
+        min-width: 2.8em;
+    }
+    #hud-score-val {
+        min-width: 3em;
+    }
+    #hud-success-val,
+    #hud-failed-val {
+        min-width: 1.2em;
+    }
+
+    /* ポップアップウィンドウ（クリア・リザルト）の縮小調整 */
+    .result-box,
+    .clear-box {
+        border-width: 5px;
+        border-bottom-width: 8px;
+    }
+    
+    .result-box {
+        padding: 15px 20px;
+        max-width: 500px;
+    }
+    
+    /* ステージクリア表示（リザルトより情報が少ないため、さらにコンパクトに縮小） */
+    .clear-box {
+        padding: 8px 15px;
+        max-width: 380px;
+    }
+    
+    .clear-box h2 {
+        font-size: 1.4rem;
+        margin-top: 5px;
+        margin-bottom: 3px;
+        letter-spacing: 1px;
+    }
+    
+    .clear-box p {
+        font-size: 0.85rem;
+        margin: 4px 0;
+    }
+    
+    /* カウントダウン秒数表示の微調整 */
+    .clear-box p span {
+        font-size: 1.4rem !important;
+    }
+    
+    /* リザルト表示 */
+    .result-box h2 {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+    }
+    
+    .result-stats {
+        margin-bottom: 12px;
+        padding: 6px 12px;
+    }
+    
+    .result-row {
+        font-size: 0.95rem;
+        margin: 8px 0;
+        padding-bottom: 4px;
+    }
+    
+    .result-row.total-score {
+        font-size: 1.15rem;
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+    
+    #res-score {
+        font-size: 1.4rem;
+    }
+    
+    .result-evaluation {
+        padding: 8px 12px;
+        margin-bottom: 12px;
+    }
+    
+    .result-evaluation h3 {
+        font-size: 0.95rem;
+        margin-bottom: 3px;
+        padding-bottom: 2px;
+    }
+    
+    #res-eval-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .result-actions {
+        gap: 12px;
+    }
+    
+    .result-actions .menu-button {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+        min-width: 130px;
+        border-width: 2px;
+    }
 }

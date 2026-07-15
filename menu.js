@@ -66,6 +66,27 @@ function showRules(fromStart) {
     }
     rulesModal.style.display = "flex";
 }
+// ページ全体をフルスクリーンにする処理（モバイル端末などのアドレスバー非表示化用）
+function requestFullscreen(element) {
+    const el = element;
+    try {
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        }
+        else if (el.webkitRequestFullscreen) { /* Safari (iOS/macOS) */
+            el.webkitRequestFullscreen();
+        }
+        else if (el.mozRequestFullScreen) { /* Firefox */
+            el.mozRequestFullScreen();
+        }
+        else if (el.msRequestFullscreen) { /* IE/Edge */
+            el.msRequestFullscreen();
+        }
+    }
+    catch (err) {
+        console.warn("フルスクリーン化の要求に失敗しました:", err);
+    }
+}
 // ゲームスタート処理
 function startGame() {
     if (topMenu) {
@@ -77,6 +98,8 @@ function startGame() {
         bgTimer = null;
     }
     console.log("ゲームが開始されました");
+    // ページ全体をフルスクリーン化
+    requestFullscreen(document.documentElement);
     // ゲームの初期化と第一ステージの開始を実行
     startNewGame();
 }

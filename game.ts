@@ -254,13 +254,13 @@ function updatePosition(clientX: number) {
     mouseX = ((clientX - rect.left) / rect.width) * canvas.width;
 }
 
-window.addEventListener("mousemove", (event: MouseEvent) => {
+document.addEventListener("mousemove", (event: MouseEvent) => {
     if (gameState !== "PLAYING") return; // プレイ中のみ動くようにする
     updatePosition(event.clientX);
 });
 
 // 💡スマホでのタッチ操作（タップ・スワイプ移動）に対応
-window.addEventListener("touchstart", (event: TouchEvent) => {
+document.addEventListener("touchstart", (event: TouchEvent) => {
     if (gameState !== "PLAYING") return;
     const touch = event.touches[0];
     updatePosition(touch.clientX);
@@ -268,7 +268,7 @@ window.addEventListener("touchstart", (event: TouchEvent) => {
     if (event.cancelable) event.preventDefault();
 }, { passive: false });
 
-window.addEventListener("touchmove", (event: TouchEvent) => {
+document.addEventListener("touchmove", (event: TouchEvent) => {
     if (gameState !== "PLAYING") return;
     const touch = event.touches[0];
     updatePosition(touch.clientX);

@@ -143,10 +143,38 @@
     /* 文字の光 */
     letter-spacing: 1px;
     /* 文字間隔を少し開ける */
-    transform: scale(1);
-    /* 初期スケールを設定 */
-    animation: pulse-glow 2s infinite alternate ease-in-out;
-    /* 脈動アニメーションを追加 */
+}
+
+/* 無効化されたボタンのスタイル（押せないことを明示） */
+.menu-button:disabled {
+    background: linear-gradient(145deg,
+            #2a2a2a,
+            #1a1a1a);
+    border-color: #555555;
+    color: #888888;
+    cursor: not-allowed;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    text-shadow: none;
+    transform: none;
+    animation: none; /* 脈動アニメーションを無効化 */
+}
+
+/* 無効化されたボタンはホバーしても変化しないようにする */
+.menu-button:disabled:hover {
+    background: linear-gradient(145deg,
+            #2a2a2a,
+            #1a1a1a);
+    color: #888888;
+    border-color: #555555;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    text-shadow: none;
+    transform: none;
+    filter: none;
+    animation: none;
 }
 
 /* ボタンのホバー（マウスを載せたとき）の演出 */

@@ -61,6 +61,7 @@ body::before {
     overflow: hidden;
     box-sizing: border-box;
     /* 枠線(4px)を含めて画面内に収める */
+    touch-action: none; /* スワイプによるスクロールや戻る・進むジェスチャーを防止 */
 }
 
 canvas {
@@ -69,6 +70,7 @@ canvas {
     display: block;
     cursor: none;
     /* マウスカーソルを非表示にして駅員に集中させる */
+    touch-action: none; /* スワイプによるスクロールや戻る・進むジェスチャーを防止 */
 }
 
 /* ==================================== */

@@ -217,13 +217,13 @@ function updatePosition(clientX) {
     // 💡スマホ等でのCanvas縮小表示を考慮し、DOM上の実ピクセルからCanvas内部の論理幅(1024px)へ変換
     mouseX = ((clientX - rect.left) / rect.width) * canvas.width;
 }
-window.addEventListener("mousemove", (event) => {
+document.addEventListener("mousemove", (event) => {
     if (gameState !== "PLAYING")
         return; // プレイ中のみ動くようにする
     updatePosition(event.clientX);
 });
 // 💡スマホでのタッチ操作（タップ・スワイプ移動）に対応
-window.addEventListener("touchstart", (event) => {
+document.addEventListener("touchstart", (event) => {
     if (gameState !== "PLAYING")
         return;
     const touch = event.touches[0];
@@ -232,7 +232,7 @@ window.addEventListener("touchstart", (event) => {
     if (event.cancelable)
         event.preventDefault();
 }, { passive: false });
-window.addEventListener("touchmove", (event) => {
+document.addEventListener("touchmove", (event) => {
     if (gameState !== "PLAYING")
         return;
     const touch = event.touches[0];

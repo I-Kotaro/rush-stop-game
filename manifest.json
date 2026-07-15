@@ -1,0 +1,17 @@
+{
+  "name": "駅員駆け込み阻止ゲーム",
+  "short_name": "駆け込み阻止",
+  "description": "駆け込んでくるお客様を阻止するアクションゲーム",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#ffcc00",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "images/top-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

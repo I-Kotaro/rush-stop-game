@@ -225,7 +225,8 @@ canvas {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
-    overflow: hidden;
+    overflow-y: auto; /* 縦スクロールを許可して、画面高さを超える要素も表示可能にする */
+    -webkit-overflow-scrolling: touch; /* モバイルでのスムーズなスクロール */
 }
 
 .overlay-screen.active {
@@ -482,10 +483,17 @@ canvas {
         border-bottom-width: 8px;
     }
 
+    #result-screen.overlay-screen {
+        align-items: flex-start; /* リザルト画面のみ、縦スクロール時に上部が切れるのを防ぐため上寄せにする */
+        padding: 35px 0 15px 0; /* 上部の余白を広げてリザルト画面の表示位置を少し下げる */
+        box-sizing: border-box;
+    }
+
     .result-box {
-        padding: 15px 20px;
-        max-width: 440px;
+        padding: 10px 15px; /* 余白を削って縦幅を圧縮 */
+        max-width: 420px;
         /* 横幅をスリムに圧縮 */
+        margin: auto; /* flex-start下で中央寄せを維持 */
     }
 
     /* ステージクリア表示（リザルトより情報が少ないため、さらにコンパクトに縮小） */
@@ -513,56 +521,56 @@ canvas {
 
     /* リザルト表示 (さらに一回りスリムに縮小) */
     .result-box h2 {
-        font-size: 1.2rem;
-        margin-bottom: 8px;
-        padding-bottom: 4px;
-    }
-
-    .result-stats {
-        margin-bottom: 8px;
-        padding: 4px 10px;
-    }
-
-    .result-row {
-        font-size: 0.85rem;
-        margin: 6px 0;
+        font-size: 1.1rem; /* 少し縮小 */
+        margin-bottom: 5px; /* マージン削減 */
         padding-bottom: 3px;
     }
 
+    .result-stats {
+        margin-bottom: 5px; /* マージン削減 */
+        padding: 3px 8px; /* パディング削減 */
+    }
+
+    .result-row {
+        font-size: 0.8rem; /* 少し縮小 */
+        margin: 4px 0; /* 行間を縮小 */
+        padding-bottom: 2px;
+    }
+
     .result-row.total-score {
-        font-size: 1.05rem;
-        margin-top: 6px;
-        padding-top: 6px;
+        font-size: 0.95rem; /* 少し縮小 */
+        margin-top: 4px;
+        padding-top: 4px;
     }
 
     #res-score {
-        font-size: 1.25rem;
+        font-size: 1.15rem; /* 少し縮小 */
     }
 
     .result-evaluation {
-        padding: 6px 10px;
-        margin-bottom: 8px;
+        padding: 4px 8px; /* パディング削減 */
+        margin-bottom: 6px; /* マージン削減 */
     }
 
     .result-evaluation h3 {
-        font-size: 0.85rem;
-        margin-bottom: 2px;
+        font-size: 0.8rem; /* 少し縮小 */
+        margin-bottom: 1px;
         padding-bottom: 1px;
     }
 
     #res-eval-text {
-        font-size: 0.8rem;
-        line-height: 1.3;
+        font-size: 0.75rem; /* 少し縮小 */
+        line-height: 1.2;
     }
 
     .result-actions {
-        gap: 8px;
+        gap: 6px; /* ボタン間隔を微調整 */
     }
 
     .result-actions .menu-button {
-        font-size: 0.85rem;
-        padding: 6px 14px;
-        min-width: 110px;
+        font-size: 0.8rem; /* 少し縮小 */
+        padding: 4px 10px; /* パディング削減 */
+        min-width: 100px; /* 最小幅を縮小 */
         border-width: 2px;
     }
 }

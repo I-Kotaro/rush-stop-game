@@ -441,6 +441,23 @@ canvas {
     box-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
 }
 
+/* リザルト画面のカスタムスクロールバー（外枠の黒と同じ色にする） */
+#result-screen::-webkit-scrollbar {
+    width: 8px;
+}
+#result-screen::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+#result-screen::-webkit-scrollbar-thumb {
+    background: #0f0f0f; /* リザルト外枠と同じ黒色 */
+    border: 1px solid #2d2d2d;
+    border-radius: 4px;
+}
+#result-screen::-webkit-scrollbar-thumb:hover {
+    background: #222;
+}
+
 /* ==================================== */
 /*  スマートフォン向けレスポンシブ調整   */
 /* ==================================== */

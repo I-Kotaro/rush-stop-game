@@ -379,22 +379,14 @@
     /* 💡はみ出た場合は内側でスクロールさせる */
     flex: 1;
     /* 💡残りの高さをすべて割り当て */
-    padding-right: 5px;
+    padding-right: 15px; /* 💡独自スクロールバーと文章が被らないよう余白を確保 */
+    scrollbar-width: none; /* 💡Firefoxでスクロールバーを非表示にする */
+    -ms-overflow-style: none; /* 💡IE/Edgeでスクロールバーを非表示にする */
 }
 
-/* 💡モーダル用スクロールバーのカスタマイズ */
+/* 💡Webkitブラウザ(iOS Safari, Chrome等)でスクロールバーを完全に非表示にする */
 .modal-body::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 3px;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-    background: #ffcc00;
-    border-radius: 3px;
+    display: none !important;
 }
 
 .rule-intro {
@@ -518,19 +510,35 @@
         font-size: 12px;
     }
 
-    /* 💡iOS Safari等の実機向けにカスタムスクロールバー設定を調整し、外枠と同じ警戒黄色にして視認性を担保する */
-    .modal-body::-webkit-scrollbar {
-        -webkit-appearance: none;
-        width: 6px !important;
-    }
+}
 
-    .modal-body::-webkit-scrollbar-track {
-        background: transparent !important;
-    }
+/* 💡独自スクロールバーのスタイル定義 */
+.custom-scrollbar-track {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    bottom: 15px;
+    width: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    pointer-events: none; /* スクロール操作を阻害しない */
+    display: none; /* 初期状態は非表示（スクロールが必要な時だけJSで表示） */
+    z-index: 100;
+}
 
-    .modal-body::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 204, 0, 0.95) !important;
-        /* 💡外枠と同じ黄色（#ffcc00）をほぼ不透明で適用し、黒背景でも同化させません */
-        border-radius: 3px !important;
+.custom-scrollbar-thumb {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background-color: #ffcc00; /* 💡遊び方カード外枠と同じ黄色 */
+    border-radius: 3px;
+}
+
+/* スマホ横画面向けの独自スクロールバー位置微調整 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .custom-scrollbar-track {
+        top: 8px;
+        bottom: 8px;
     }
 }

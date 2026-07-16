@@ -80,31 +80,37 @@
     <div id="rules-modal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <h2>遊び方</h2>
-            <div class="modal-body">
-                <p class="rule-intro">駆け込み乗車を阻止しましょう！</p>
-                <div class="rule-section">
-                    <h3>【ルール】</h3>
-                    <ul>
-                        <li>マウス（スマホはスワイプ）で駅員を左右に操作します。</li>
-                        <li>駆け込んでくるお客様にぶつかって、ご乗車を阻止してください。</li>
-                        <li>見事阻止できると <strong>「阻止人数」が＋1され、得点が＋100点</strong> されます。</li>
-                        <li>阻止できずお客様がドアに到達すると「突破」となり、<strong>得点が－300点</strong> されます。</li>
-                        <li>各レベルは <strong>制限時間30秒</strong> です。全5ステージをクリアした最終合計スコアで、駅長からの評価が決まります！</li>
-                    </ul>
+            <div class="modal-body-wrapper" style="position: relative; display: flex; flex: 1; overflow: hidden; width: 100%;">
+                <div class="modal-body" id="rules-modal-body">
+                    <p class="rule-intro">駆け込み乗車を阻止しましょう！</p>
+                    <div class="rule-section">
+                        <h3>【ルール】</h3>
+                        <ul>
+                            <li>マウス（スマホはスワイプ）で駅員を左右に操作します。</li>
+                            <li>駆け込んでくるお客様にぶつかって、ご乗車を阻止してください。</li>
+                            <li>見事阻止できると <strong>「阻止人数」が＋1され、得点が＋100点</strong> されます。</li>
+                            <li>阻止できずお客様がドアに到達すると「突破」となり、<strong>得点が－300点</strong> されます。</li>
+                            <li>各レベルは <strong>制限時間30秒</strong> です。全5ステージをクリアした最終合計スコアで、駅長からの評価が決まります！</li>
+                        </ul>
+                    </div>
+                    <div class="rule-section">
+                        <h3>【操作方法】</h3>
+                        <ul>
+                            <li>PC操作：マウスを左右に動かすと、駅員が左右に追従します。</li>
+                            <li>スマホ操作：画面を左右にスワイプ（タッチして移動）すると、駅員が左右に追従します。</li>
+                        </ul>
+                    </div>
+                    <div class="rule-section">
+                        <h3>【コツ】</h3>
+                        <ul>
+                            <li>お客様は乗り遅れないよう急いでいます。お客様の正面に入り、ドアを<strong>7割程度しっかり塞ぎ込むように立ち塞がらないと</strong>、すき間から駆け込まれてしまうので注意しましょう！
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="rule-section">
-                    <h3>【操作方法】</h3>
-                    <ul>
-                        <li>PC操作：マウスを左右に動かすと、駅員が左右に追従します。</li>
-                        <li>スマホ操作：画面を左右にスワイプ（タッチして移動）すると、駅員が左右に追従します。</li>
-                    </ul>
-                </div>
-                <div class="rule-section">
-                    <h3>【コツ】</h3>
-                    <ul>
-                        <li>お客様は乗り遅れないよう急いでいます。お客様の正面に入り、ドアを<strong>7割程度しっかり塞ぎ込むように立ち塞がらないと</strong>、すき間から駆け込まれてしまうので注意しましょう！
-                        </li>
-                    </ul>
+                <!-- 独自スクロールバー -->
+                <div class="custom-scrollbar-track" id="rules-scrollbar-track">
+                    <div class="custom-scrollbar-thumb" id="rules-scrollbar-thumb"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -174,8 +180,8 @@
         <canvas id="gameCanvas" width="1024" height="576"></canvas>
     </div>
 
-    <script type="module" src="game.js"></script>
-    <script type="module" src="menu.js"></script>
+    <script type="module" src="game.js?v=20260716_1"></script>
+    <script type="module" src="menu.js?v=20260716_1"></script>
 </body>
 
 </html>

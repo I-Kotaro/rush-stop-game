@@ -141,3 +141,59 @@ btnCloseRules === null || btnCloseRules === void 0 ? void 0 : btnCloseRules.addE
         startGame();
     }
 });
+
+// === 独自スクロールバー制御 (Safari実機などでのスクロールバー見えない問題の完全な対策) ===
+const modalBody = document.getElementById("rules-modal-body");
+const scrollbarTrack = document.getElementById("rules-scrollbar-track");
+const scrollbarThumb = document.getElementById("rules-scrollbar-thumb");
+
+function updateCustomScrollbar() {
+    if (!modalBody || !scrollbarTrack || !scrollbarThumb) return;
+
+    const scrollHeight = modalBody.scrollHeight;
+    const clientHeight = modalBody.clientHeight;
+    const scrollTop = modalBody.scrollTop;
+
+    // コンテンツ量が少なくスクロールが不要な場合は非表示にする
+    if (scrollHeight <= clientHeight) {
+        scrollbarTrack.style.display = "none";
+        return;
+    }
+
+    scrollbarTrack.style.display = "block";
+
+    // つまみの高さをコンテンツの比率に応じて動的に算出（最小20pxを保証）
+    const trackHeight = scrollbarTrack.clientHeight;
+    const thumbHeight = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
+    scrollbarThumb.style.height = `${thumbHeight}px`;
+
+    // つまみの縦位置（top）をコンテンツのスクロール位置と同期
+    const maxScrollTop = scrollHeight - clientHeight;
+    const maxTrackTop = trackHeight - thumbHeight;
+    const thumbTop = (scrollTop / maxScrollTop) * maxTrackTop;
+    scrollbarThumb.style.top = `${thumbTop}px`;
+}
+
+if (modalBody) {
+    modalBody.addEventListener("scroll", updateCustomScrollbar);
+}
+window.addEventListener("resize", updateCustomScrollbar);
+
+// モーダルが表示(display: flex)された瞬間を検知してスクロールバーを初期化・更新する監視処理
+function hookRulesModalOpen() {
+    if (!rulesModal) return;
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === "style") {
+                const display = window.getComputedStyle(rulesModal).display;
+                if (display === "flex") {
+                    // 表示直後は描画決定にわずかに時差がある場合があるため、即時と50ms後の2回更新する
+                    updateCustomScrollbar();
+                    setTimeout(updateCustomScrollbar, 50);
+                }
+            }
+        });
+    });
+    observer.observe(rulesModal, { attributes: true });
+}
+hookRulesModalOpen();

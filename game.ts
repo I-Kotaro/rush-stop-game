@@ -457,3 +457,63 @@ document.getElementById("btn-back-to-menu")?.addEventListener("click", () => {
     // タイトルメニューへ戻る（完全に状態を初期化するためにリロード）
     location.reload();
 });
+
+// === リザルト画面用 独自スクロールバー制御 ===
+const resultScreen = document.getElementById("result-screen") as HTMLElement | null;
+const resultScrollbarTrack = document.getElementById("result-scrollbar-track") as HTMLElement | null;
+const resultScrollbarThumb = document.getElementById("result-scrollbar-thumb") as HTMLElement | null;
+
+/**
+ * 独自スクロールバーのサイズと位置をリザルト画面のスクロール量と同期する
+ */
+function updateResultScrollbar(): void {
+    if (!resultScreen || !resultScrollbarTrack || !resultScrollbarThumb) return;
+
+    const scrollHeight = resultScreen.scrollHeight;
+    const clientHeight = resultScreen.clientHeight;
+    const scrollTop = resultScreen.scrollTop;
+
+    // コンテンツ量が少なくスクロールが不要な場合は非表示にする
+    if (scrollHeight <= clientHeight) {
+        resultScrollbarTrack.style.display = "none";
+        return;
+    }
+
+    resultScrollbarTrack.style.display = "block";
+
+    // つまみの高さをコンテンツの比率に応じて動的に算出（最小20pxを保証）
+    const trackHeight = resultScrollbarTrack.clientHeight;
+    const thumbHeight = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
+    resultScrollbarThumb.style.height = `${thumbHeight}px`;
+
+    // つまみの縦位置（top）をコンテンツのスクロール位置と同期
+    const maxScrollTop = scrollHeight - clientHeight;
+    const maxTrackTop = trackHeight - thumbHeight;
+    const thumbTop = (scrollTop / maxScrollTop) * maxTrackTop;
+    resultScrollbarThumb.style.top = `${thumbTop}px`;
+}
+
+if (resultScreen) {
+    resultScreen.addEventListener("scroll", updateResultScrollbar);
+}
+window.addEventListener("resize", updateResultScrollbar);
+
+/**
+ * リザルト画面が表示(display: flex)された瞬間を検知してスクロールバーを初期化・更新する
+ */
+function hookResultScreenOpen(): void {
+    if (!resultScreen) return;
+    const observer = new MutationObserver((mutations): void => {
+        mutations.forEach((mutation): void => {
+            if (mutation.attributeName === "style") {
+                const display = window.getComputedStyle(resultScreen).display;
+                if (display === "flex") {
+                    updateResultScrollbar();
+                    setTimeout(updateResultScrollbar, 50);
+                }
+            }
+        });
+    });
+    observer.observe(resultScreen, { attributes: true });
+}
+hookResultScreenOpen();

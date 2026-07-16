@@ -28,7 +28,7 @@ export class Passenger {
      * 客の状態を更新する
      * @returns {boolean} 画面外に出た、またはフェードアウトが完了した場合は true を返し、削除可能であることを示す
      */
-    public update(targetDoorY: number, canvasHeight: number, canvasWidth: number): boolean {
+    public update(targetDoorY: number, canvasHeight: number, canvasWidth: number, dtRatio: number = 1.0): boolean {
         if (!this.isBounced) {
             // ドアに向かって走る (Y軸の目的地は客の上端 p.y)
             const dx = this.targetX - (this.x + this.width / 2);
@@ -46,21 +46,22 @@ export class Passenger {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance > 0) {
-                if (distance <= this.speed) {
+                const scaledSpeed = this.speed * dtRatio;
+                if (distance <= scaledSpeed) {
                     // 残り距離がスピード以下の場合は、直接目的地（ドア）にピッタリ合わせる
                     this.x = this.targetX - this.width / 2;
                     this.y = targetY;
                 } else {
-                    this.x += (dx / distance) * this.speed;
-                    this.y += (dy / distance) * this.speed;
+                    this.x += (dx / distance) * scaledSpeed;
+                    this.y += (dy / distance) * scaledSpeed;
                 }
             }
         } else {
             // 弾き飛ばされ演出（物理落下）
-            this.x += this.bounceVx;
-            this.y += this.bounceVy;
-            this.bounceVy += 0.3; // 重力加速度
-            this.alpha -= 0.02;   // フェードアウト
+            this.x += this.bounceVx * dtRatio;
+            this.y += this.bounceVy * dtRatio;
+            this.bounceVy += 0.3 * dtRatio; // 重力加速度
+            this.alpha -= 0.02 * dtRatio;   // フェードアウト
 
             // 完全に消えたか、画面外に落ちたら削除対象にする
             if (this.alpha <= 0 || this.y > canvasHeight || this.x < -this.width || this.x > canvasWidth) {

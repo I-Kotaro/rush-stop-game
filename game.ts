@@ -372,10 +372,14 @@ function gameLoop(timestamp: number) {
             player.draw(ctx);
         }
 
+        // 基準FPS(60)に対する比率を計算 (1フレームあたり約16.67msが基準)
+        // タブがバックグラウンドにいた場合などの異常に大きなdeltaTimeを避けるため、上限を設ける
+        const dtRatio = Math.min(3.0, deltaTime / (1000 / 60));
+
         // 客の処理
         for (let i = passengers.length - 1; i >= 0; i--) {
             const p = passengers[i];
-            const shouldRemove = p.update(targetDoorY, canvas.height, canvas.width);
+            const shouldRemove = p.update(targetDoorY, canvas.height, canvas.width, dtRatio);
             if (shouldRemove) {
                 passengers.splice(i, 1);
                 continue;

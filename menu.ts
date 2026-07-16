@@ -162,3 +162,64 @@ btnCloseRules?.addEventListener("click", (): void => {
         startGame();
     }
 });
+
+// === 独自スクロールバー制御 (Safari実機などでのスクロールバー見えない問題の完全な対策) ===
+const modalBody = document.getElementById("rules-modal-body") as HTMLElement | null;
+const scrollbarTrack = document.getElementById("rules-scrollbar-track") as HTMLElement | null;
+const scrollbarThumb = document.getElementById("rules-scrollbar-thumb") as HTMLElement | null;
+
+/**
+ * 独自スクロールバーのサイズと位置をコンテンツのスクロール量と同期する
+ */
+function updateCustomScrollbar(): void {
+    if (!modalBody || !scrollbarTrack || !scrollbarThumb) return;
+
+    const scrollHeight = modalBody.scrollHeight;
+    const clientHeight = modalBody.clientHeight;
+    const scrollTop = modalBody.scrollTop;
+
+    // コンテンツ量が少なくスクロールが不要な場合は非表示にする
+    if (scrollHeight <= clientHeight) {
+        scrollbarTrack.style.display = "none";
+        return;
+    }
+
+    scrollbarTrack.style.display = "block";
+
+    // つまみの高さをコンテンツの比率に応じて動的に算出（最小20pxを保証）
+    const trackHeight = scrollbarTrack.clientHeight;
+    const thumbHeight = Math.max((clientHeight / scrollHeight) * trackHeight, 20);
+    scrollbarThumb.style.height = `${thumbHeight}px`;
+
+    // つまみの縦位置（top）をコンテンツのスクロール位置と同期
+    const maxScrollTop = scrollHeight - clientHeight;
+    const maxTrackTop = trackHeight - thumbHeight;
+    const thumbTop = (scrollTop / maxScrollTop) * maxTrackTop;
+    scrollbarThumb.style.top = `${thumbTop}px`;
+}
+
+if (modalBody) {
+    modalBody.addEventListener("scroll", updateCustomScrollbar);
+}
+window.addEventListener("resize", updateCustomScrollbar);
+
+/**
+ * モーダルが表示(display: flex)された瞬間を検知してスクロールバーを初期化・更新する
+ */
+function hookRulesModalOpen(): void {
+    if (!rulesModal) return;
+    const observer = new MutationObserver((mutations): void => {
+        mutations.forEach((mutation): void => {
+            if (mutation.attributeName === "style") {
+                const display = window.getComputedStyle(rulesModal).display;
+                if (display === "flex") {
+                    // 表示直後は描画決定にわずかに時差がある場合があるため、即時と50ms後の2回更新する
+                    updateCustomScrollbar();
+                    setTimeout(updateCustomScrollbar, 50);
+                }
+            }
+        });
+    });
+    observer.observe(rulesModal, { attributes: true });
+}
+hookRulesModalOpen();

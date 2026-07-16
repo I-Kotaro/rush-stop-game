@@ -497,6 +497,8 @@
         max-height: 140px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        color-scheme: dark;
+        /* 💡OSに対してここがダーク背景であることを伝え、スクロールインジケータを白色系に自動変更させる */
     }
 
     .rule-intro {
@@ -516,16 +518,19 @@
         font-size: 12px;
     }
 
-    /* 💡iOS Safari等の実機向けにカスタムスクロールバー設定をリセットし、操作中にOS標準のインジケータが表示されるようにする */
+    /* 💡iOS Safari等の実機向けにカスタムスクロールバー設定を調整し、外枠と同じ警戒黄色にして視認性を担保する */
     .modal-body::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 6px !important;
     }
+
     .modal-body::-webkit-scrollbar-track {
         background: transparent !important;
     }
+
     .modal-body::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 204, 0, 0.7) !important;
+        background-color: rgba(255, 204, 0, 0.95) !important;
+        /* 💡外枠と同じ黄色（#ffcc00）をほぼ不透明で適用し、黒背景でも同化させません */
         border-radius: 3px !important;
     }
 }

@@ -494,6 +494,9 @@
         margin: 8px 0;
         font-size: 11px;
         line-height: 1.4;
+        max-height: 140px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .rule-intro {
@@ -511,5 +514,18 @@
     .modal-close-button {
         padding: 6px 15px;
         font-size: 12px;
+    }
+
+    /* 💡iOS Safari等の実機向けにカスタムスクロールバー設定をリセットし、操作中にOS標準のインジケータが表示されるようにする */
+    .modal-body::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 6px !important;
+    }
+    .modal-body::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+    .modal-body::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 204, 0, 0.7) !important;
+        border-radius: 3px !important;
     }
 }

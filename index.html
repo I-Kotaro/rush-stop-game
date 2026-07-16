@@ -146,37 +146,41 @@
         </div>
 
         <!-- リザルト画面 (運行結果報告) -->
-        <div id="result-screen" class="overlay-screen" style="display: none;">
-            <!-- 独自スクロールバー -->
-            <div class="custom-scrollbar-track" id="result-scrollbar-track">
-                <div class="custom-scrollbar-thumb" id="result-scrollbar-thumb"></div>
-            </div>
-            <div class="result-box">
-                <div class="led-grid"></div>
-                <h2>--- 運行結果報告 ---</h2>
-                <div class="result-stats">
-                    <div class="result-row">
-                        <span class="res-label">総阻止成功数</span>
-                        <span class="res-val"><span id="res-success">0</span>回 (+<span
-                                id="res-success-pt">0</span>点)</span>
-                    </div>
-                    <div class="result-row">
-                        <span class="res-label">総阻止失敗数</span>
-                        <span class="res-val"><span id="res-failed">0</span>回 (-<span
-                                id="res-failed-pt">0</span>点)</span>
-                    </div>
-                    <div class="result-row total-score">
-                        <span class="res-label">総合評価スコア</span>
-                        <span class="res-val"><span id="res-score">0</span>点</span>
+        <div id="result-screen" class="overlay-screen" style="display: none; overflow: hidden;">
+            <div id="result-scroll-wrapper" style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+                <div id="result-scroll-area" style="width: 100%; height: 100%; overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; -webkit-overflow-scrolling: touch; padding: 35px 0 15px 0; box-sizing: border-box;">
+                    <div class="result-box">
+                        <div class="led-grid"></div>
+                        <h2>--- 運行結果報告 ---</h2>
+                        <div class="result-stats">
+                            <div class="result-row">
+                                <span class="res-label">総阻止成功数</span>
+                                <span class="res-val"><span id="res-success">0</span>回 (+<span
+                                        id="res-success-pt">0</span>点)</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="res-label">総阻止失敗数</span>
+                                <span class="res-val"><span id="res-failed">0</span>回 (-<span
+                                        id="res-failed-pt">0</span>点)</span>
+                            </div>
+                            <div class="result-row total-score">
+                                <span class="res-label">総合評価スコア</span>
+                                <span class="res-val"><span id="res-score">0</span>点</span>
+                            </div>
+                        </div>
+                        <div class="result-evaluation">
+                            <h3>【駅長からの評価】</h3>
+                            <p id="res-eval-text">ここに評価が入ります。</p>
+                        </div>
+                        <div class="result-actions">
+                            <button id="btn-restart" class="menu-button">もう一度挑戦</button>
+                            <button id="btn-back-to-menu" class="menu-button">タイトルに戻る</button>
+                        </div>
                     </div>
                 </div>
-                <div class="result-evaluation">
-                    <h3>【駅長からの評価】</h3>
-                    <p id="res-eval-text">ここに評価が入ります。</p>
-                </div>
-                <div class="result-actions">
-                    <button id="btn-restart" class="menu-button">もう一度挑戦</button>
-                    <button id="btn-back-to-menu" class="menu-button">タイトルに戻る</button>
+                <!-- 独自スクロールバー -->
+                <div class="custom-scrollbar-track" id="result-scrollbar-track">
+                    <div class="custom-scrollbar-thumb" id="result-scrollbar-thumb"></div>
                 </div>
             </div>
         </div>

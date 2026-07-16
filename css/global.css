@@ -442,11 +442,13 @@ canvas {
 }
 
 /* リザルト画面のネイティブスクロールバーを非表示にする */
-#result-screen {
+#result-screen,
+#result-scroll-area {
     scrollbar-width: none; /* Firefox用 */
     -ms-overflow-style: none; /* IE用 */
 }
-#result-screen::-webkit-scrollbar {
+#result-screen::-webkit-scrollbar,
+#result-scroll-area::-webkit-scrollbar {
     display: none !important; /* Chrome, Safari用 */
 }
 

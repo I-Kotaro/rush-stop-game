@@ -387,17 +387,18 @@ function gameLoop(timestamp) {
 });
 // === リザルト画面用 独自スクロールバー制御 ===
 const resultScreen = document.getElementById("result-screen");
+const resultScrollArea = document.getElementById("result-scroll-area");
 const resultScrollbarTrack = document.getElementById("result-scrollbar-track");
 const resultScrollbarThumb = document.getElementById("result-scrollbar-thumb");
 /**
  * 独自スクロールバーのサイズと位置をリザルト画面のスクロール量と同期する
  */
 function updateResultScrollbar() {
-    if (!resultScreen || !resultScrollbarTrack || !resultScrollbarThumb)
+    if (!resultScrollArea || !resultScrollbarTrack || !resultScrollbarThumb)
         return;
-    const scrollHeight = resultScreen.scrollHeight;
-    const clientHeight = resultScreen.clientHeight;
-    const scrollTop = resultScreen.scrollTop;
+    const scrollHeight = resultScrollArea.scrollHeight;
+    const clientHeight = resultScrollArea.clientHeight;
+    const scrollTop = resultScrollArea.scrollTop;
     // コンテンツ量が少なくスクロールが不要な場合は非表示にする
     if (scrollHeight <= clientHeight) {
         resultScrollbarTrack.style.display = "none";
@@ -414,8 +415,8 @@ function updateResultScrollbar() {
     const thumbTop = (scrollTop / maxScrollTop) * maxTrackTop;
     resultScrollbarThumb.style.top = `${thumbTop}px`;
 }
-if (resultScreen) {
-    resultScreen.addEventListener("scroll", updateResultScrollbar);
+if (resultScrollArea) {
+    resultScrollArea.addEventListener("scroll", updateResultScrollbar);
 }
 window.addEventListener("resize", updateResultScrollbar);
 /**
@@ -429,6 +430,10 @@ function hookResultScreenOpen() {
             if (mutation.attributeName === "style") {
                 const display = window.getComputedStyle(resultScreen).display;
                 if (display === "flex") {
+                    // 表示直後にスクロール位置を最上部にリセット
+                    if (resultScrollArea) {
+                        resultScrollArea.scrollTop = 0;
+                    }
                     updateResultScrollbar();
                     setTimeout(updateResultScrollbar, 50);
                 }

@@ -495,21 +495,24 @@ canvas {
     /* ポップアップウィンドウ（クリア・リザルト）の縮小調整 */
     .result-box,
     .clear-box {
-        border-width: 5px;
-        border-bottom-width: 8px;
+        border-width: 3px;
+        border-bottom-width: 5px;
     }
 
     #result-screen.overlay-screen {
-        align-items: flex-start; /* リザルト画面のみ、縦スクロール時に上部が切れるのを防ぐため上寄せにする */
-        padding: 35px 0 15px 0; /* 上部の余白を広げてリザルト画面の表示位置を少し下げる */
+        align-items: center; /* 1画面に収まるため、中央寄せに変更 */
+        padding: 0;
         box-sizing: border-box;
     }
 
+    #result-scroll-area {
+        padding: 5px 0 !important; /* HTML直書きの35px余白をモバイル向けに上書き・圧縮 */
+    }
+
     .result-box {
-        padding: 10px 15px; /* 余白を削って縦幅を圧縮 */
-        max-width: 420px;
-        /* 横幅をスリムに圧縮 */
-        margin: auto; /* flex-start下で中央寄せを維持 */
+        padding: 6px 12px; /* 余白をさらに削って縦幅を圧縮 */
+        max-width: 440px; /* 横幅を少し広げてテキストの折り返し（縦伸び）を防ぐ */
+        margin: auto;
     }
 
     /* ステージクリア表示（リザルトより情報が少ないため、さらにコンパクトに縮小） */
@@ -537,46 +540,49 @@ canvas {
 
     /* リザルト表示 (さらに一回りスリムに縮小) */
     .result-box h2 {
-        font-size: 1.1rem; /* 少し縮小 */
-        margin-bottom: 5px; /* マージン削減 */
-        padding-bottom: 3px;
+        font-size: 0.95rem; /* タイトルフォントを縮小 */
+        margin-top: 2px;
+        margin-bottom: 2px; /* マージン削減 */
+        padding-bottom: 1px;
+        border-bottom-width: 1px;
     }
 
     .result-stats {
-        margin-bottom: 5px; /* マージン削減 */
-        padding: 3px 8px; /* パディング削減 */
+        margin-bottom: 3px; /* マージン削減 */
+        padding: 2px 6px; /* パディング削減 */
     }
 
     .result-row {
-        font-size: 0.8rem; /* 少し縮小 */
-        margin: 4px 0; /* 行間を縮小 */
-        padding-bottom: 2px;
+        font-size: 0.72rem; /* 行テキストを縮小 */
+        margin: 2px 0; /* 行間を縮小 */
+        padding-bottom: 1px;
     }
 
     .result-row.total-score {
-        font-size: 0.95rem; /* 少し縮小 */
-        margin-top: 4px;
-        padding-top: 4px;
+        font-size: 0.85rem; /* 総合評価テキストを縮小 */
+        margin-top: 2px;
+        padding-top: 2px;
     }
 
     #res-score {
-        font-size: 1.15rem; /* 少し縮小 */
+        font-size: 1.05rem; /* スコア数値を縮小 */
     }
 
     .result-evaluation {
-        padding: 4px 8px; /* パディング削減 */
-        margin-bottom: 6px; /* マージン削減 */
+        padding: 2px 6px; /* パディング削減 */
+        margin-bottom: 3px; /* マージン削減 */
     }
 
     .result-evaluation h3 {
-        font-size: 0.8rem; /* 少し縮小 */
+        font-size: 0.72rem; /* 少し縮小 */
+        margin-top: 1px;
         margin-bottom: 1px;
         padding-bottom: 1px;
     }
 
     #res-eval-text {
-        font-size: 0.75rem; /* 少し縮小 */
-        line-height: 1.2;
+        font-size: 0.68rem; /* 評価メッセージを縮小 */
+        line-height: 1.15;
     }
 
     .result-actions {
@@ -584,9 +590,11 @@ canvas {
     }
 
     .result-actions .menu-button {
-        font-size: 0.8rem; /* 少し縮小 */
-        padding: 4px 10px; /* パディング削減 */
-        min-width: 100px; /* 最小幅を縮小 */
-        border-width: 2px;
+        font-size: 0.72rem; /* ボタンの文字を縮小 */
+        padding: 3px 6px; /* パディング削減 */
+        margin: 1px 3px !important; /* 親クラスから引き継ぐ大きなmargin(20px)を上書き */
+        min-width: 85px; /* 最小幅を縮小 */
+        border-width: 1.5px;
+        border-radius: 4px;
     }
 }

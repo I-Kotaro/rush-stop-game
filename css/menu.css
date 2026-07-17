@@ -486,7 +486,7 @@
         margin: 4px 0; /* マージンを削減 */
         font-size: 11px;
         line-height: 1.4;
-        max-height: 125px; /* スクロールエリアの最大高さを増やし、遊び方カード全体の高さを確保する */
+        max-height: 165px; /* スクロールエリアの最大高さをさらに増やし、スクロールせずに多くの情報を表示する */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         color-scheme: dark;

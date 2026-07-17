@@ -471,22 +471,22 @@
         max-width: 480px;
         max-height: 95vh;
         /* 💡横画面時は画面上限いっぱいまで高さを確保 */
-        padding: 12px 20px;
+        padding: 6px 15px; /* パディングを詰めて高さを圧縮 */
         border-width: 3px;
         border-radius: 10px;
     }
 
     .modal-content h2 {
-        font-size: 16px;
-        margin-bottom: 5px;
-        padding-bottom: 5px;
+        font-size: 14px; /* 見出しを縮小 */
+        margin-bottom: 2px;
+        padding-bottom: 2px;
     }
 
     .modal-body {
-        margin: 8px 0;
+        margin: 4px 0; /* マージンを削減 */
         font-size: 11px;
         line-height: 1.4;
-        max-height: 140px;
+        max-height: 80px; /* スクロールエリアの最大高さを削減して、下の開始ボタンを引っ張り上げる */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         color-scheme: dark;
@@ -494,20 +494,21 @@
     }
 
     .rule-intro {
-        margin-bottom: 5px;
+        margin-bottom: 2px;
     }
 
     .rule-section {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
     }
 
     .modal-footer {
-        padding-top: 8px;
+        padding-top: 4px; /* 余白削減 */
+        gap: 6px; /* 要素間隔を詰める */
     }
 
     .modal-close-button {
-        padding: 6px 15px;
-        font-size: 12px;
+        padding: 4px 12px; /* ボタンパディングを削減 */
+        font-size: 11px; /* 文字を縮小 */
     }
 
 }
